@@ -14,7 +14,7 @@ bool SearchForWord(const string &strfile, const string &word)
 	return false;
 }
 
-vector<int> FoundWord(const string &filename, const string &word)
+vector<int> SearchLineNumber(const string &filename, const string &word)
 {
 	ifstream f;
 	f.open(filename);
@@ -24,17 +24,17 @@ vector<int> FoundWord(const string &filename, const string &word)
 	}
 	int counterStr = 0;
 	string strfile;
-	vector<int> array1;
+	vector<int> lineNumbers;
 	while (!f.eof())
 	{
 		getline(f, strfile);
 		counterStr++;
 		if (SearchForWord(strfile, word))
 		{
-			array1.push_back(counterStr);
+			lineNumbers.push_back(counterStr);
 		}
 	}
-	return array1;
+	return lineNumbers;
 }
 
 int main(int argc, char *argv[])
@@ -46,23 +46,23 @@ int main(int argc, char *argv[])
 	}
 	string filename = argv[1];
 	string word = argv[2];
-	vector<int> array1;
+	vector<int> lineNumbers;
 	try
 	{
-		array1 = FoundWord(filename, word);
+		lineNumbers = SearchLineNumber(filename, word);
 	}
 	catch(const invalid_argument &err)
 	{
 		cout << err.what() << endl;
 	}
-	if (array1.size() == 0)
+	if (lineNumbers.size() == 0)
 	{
 		cout << "Text not found" << endl;
 		return 1;
 	}
 	else
 	{
-		for (const auto &line : array1)
+		for (const auto &line : lineNumbers)
 		{
 			cout << line << endl;
 		}
