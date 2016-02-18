@@ -20,12 +20,12 @@ BOOST_AUTO_TEST_CASE(StringContainsTextTest)
 	BOOST_CHECK_EQUAL(StringContainsText("Qwert qwe", "qwe"), true);
 }
 	
-BOOST_AUTO_TEST_CASE(CheckOnTextFoundTest)
+BOOST_AUTO_TEST_CASE(IsEmptyTest)
 {
 	std::vector<int> voidvector = {};
 	std::vector<int> t1 = { 1,4 };
-	BOOST_CHECK_EQUAL(CheckOnTextFound(voidvector), false);
-	BOOST_CHECK_EQUAL(CheckOnTextFound(t1), true);
+	BOOST_CHECK_EQUAL(IsEmpty(voidvector), true);
+	BOOST_CHECK_EQUAL(IsEmpty(t1), false);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

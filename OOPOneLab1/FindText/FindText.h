@@ -4,4 +4,4 @@ bool StringContainsText(const std::string & haystack, const std::string& needle)
 
 std::vector<int> SearchFileForText(const std::string &filename, const std::string &needle);
 
-bool CheckOnTextFound(const std::vector<int> &lineNumbers);
+bool IsEmpty(const std::vector<int> &lineNumbers);
