@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 		cout << err.what() << endl;
 		return 1;
 	}
-	if (!IsEmpty(lineNumbers))
+	if (!empty(lineNumbers))
 	{
 		for (const auto &line : lineNumbers)
 		{

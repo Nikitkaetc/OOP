@@ -32,9 +32,3 @@ vector<int> SearchFileForText(const string &filename, const string &needle)
 	}
 	return lineNumbers;
 }
-
-
-bool IsEmpty(const vector<int> &lineNumbers)
-{
-	return lineNumbers.size() == 0;
-}
