@@ -17,11 +17,11 @@ BOOST_AUTO_TEST_CASE(RootTest)
 	BOOST_CHECK_EQUAL(Root(2, 5.5, -sqrt(30.25)), -2.75);
 }
 
-BOOST_AUTO_TEST_CASE(CheckOnCorrectTest)
+BOOST_AUTO_TEST_CASE(IsNumberTest)
 {
-	BOOST_CHECK_EQUAL(CheckOnCorrect("72.5"), 72.5);
-	BOOST_CHECK_EQUAL(CheckOnCorrect("0"), 0);
-	BOOST_CHECK_THROW(CheckOnCorrect("qwe"), std::invalid_argument);
+	BOOST_CHECK_EQUAL(IsNumber("72.5"), 72.5);
+	BOOST_CHECK_EQUAL(IsNumber("0"), 0);
+	BOOST_CHECK_THROW(IsNumber("hi"), std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

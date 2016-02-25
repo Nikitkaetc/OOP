@@ -20,29 +20,23 @@ int main(int argc, char *argv[])
 	float a, b, c;
 	try
 	{
-		a = CheckOnCorrect(argv[1]);
-		b = CheckOnCorrect(argv[2]);
-		c = CheckOnCorrect(argv[3]);
+		a = IsNumber(argv[1]);
+		b = IsNumber(argv[2]);
+		c = IsNumber(argv[3]);
 	}
 	catch (const invalid_argument &err)
 	{
 		cout << err.what() << endl;
 		return 1;
 	}
-	float discr = Discriminant(a, b, c);
-	if (discr > 0)
-	{
-		cout << setprecision(4) << Root(a, b, sqrt(discr)) << endl;
-		cout << setprecision(4) << Root(a, b, -sqrt(discr)) << endl;
-	}
-	else if (discr == 0)
-	{
-		cout << setprecision(4) << Root(a, b, 0) << endl;
-	}
-	else
+	if (Discriminant(a, b, c) < 0)
 	{
 		cout << "There is no real root" << endl;
 		return 1;
+	}
+	else
+	{
+		PrintRoot(a, b, Discriminant(a, b, c));
 	}
 	return 0;
 }
