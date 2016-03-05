@@ -15,18 +15,6 @@ float Root(float a, float b, float discr)
 	return ((-b + discr) / (2 * a));
 }
 
-float IsNumber(string argument)
-{
-	if (stoi(argument) || argument[0] == '0')
-	{
-		return stoi(argument);
-	}
-	else
-	{
-		throw invalid_argument("Not correct input");
-	}
-}
-
 void PrintRoot(float a, float b, float discr)
 {
 	if (discr > 0)
