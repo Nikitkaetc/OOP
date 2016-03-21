@@ -14,7 +14,7 @@ vector<double> FillVector()
 
 vector<double> VectorTransform(vector<double> &vec)
 {
-	if (vec.empty() != 0)
+	if (!vec.empty())
 	{
 		auto minElement = min_element(vec.begin(), vec.end());
 		boost::transform(vec, vec.begin(), arg1 / float(*minElement));
@@ -25,5 +25,5 @@ vector<double> VectorTransform(vector<double> &vec)
 
 void PrintVector(const vector<double> &vec)
 {
-	copy(vec.begin(), vec.end(), ostream_iterator<int>(cout, " "));
+	copy(vec.begin(), vec.end(), ostream_iterator<double>(cout, " "));
 }
