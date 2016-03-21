@@ -11,10 +11,13 @@ BOOST_AUTO_TEST_CASE(DiscriminantTest)
 	BOOST_CHECK_EQUAL(Discriminant(-1.1875, 4.5, 1), 25);
 }
 
-BOOST_AUTO_TEST_CASE(RootTest)
+BOOST_AUTO_TEST_CASE(SolveEquationTest)
 {
-	BOOST_CHECK_EQUAL(Root(2, 5, sqrt(25)), 0);
-	BOOST_CHECK_EQUAL(Root(2, 5.5, -sqrt(30.25)), -2.75);
+	std::vector<float> t1 = { -0.5,-2 };
+	std::vector<float> t2 = { -1 };
+	std::vector<float> voidvector = {};
+	BOOST_CHECK(SolveEquation(2, 5, 2) == t1);
+	BOOST_CHECK(SolveEquation(2, 4, 2) == t2);
+	BOOST_CHECK(SolveEquation(1, 2, 24) == voidvector);
 }
-
 BOOST_AUTO_TEST_SUITE_END()

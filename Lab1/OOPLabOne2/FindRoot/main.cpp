@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <iterator>
 using namespace std;
 
 
@@ -30,14 +31,15 @@ int main(int argc, char *argv[])
 		cout << "It isnt number"<< endl;
 		return 1;
 	}
-	if (Discriminant(a, b, c) < 0)
+	auto roots = SolveEquation(a, b, c);
+	if (roots.empty())
 	{
-		cout << "There is no real root" << endl;
+		cout << "There is no real root" << endl;;
 		return 1;
 	}
 	else
 	{
-		PrintRoot(a, b, Discriminant(a, b, c));
+		copy(roots.begin(), roots.end(), ostream_iterator<float>(cout, " "));
 	}
 	return 0;
 }
