@@ -12,15 +12,16 @@ vector<double> FillVector()
 }
 
 
-vector<double> VectorTransform(vector<double> &vec)
+vector<double> VectorTransform(vector<double> const& vec)
 {
-	if (!vec.empty())
+	vector<double> vect = vec;
+	if (!vect.empty())
 	{
-		auto minElement = min_element(vec.begin(), vec.end());
-		boost::transform(vec, vec.begin(), arg1 / float(*minElement));
-		sort(vec.begin(), vec.end());
+		auto minElement = min_element(vect.begin(), vect.end());
+		boost::transform(vect, vect.begin(), arg1 / static_cast<float>(*minElement));
+		sort(vect.begin(), vect.end());
 	}
-	return vec;
+	return vect;
 }
 
 void PrintVector(const vector<double> &vec)

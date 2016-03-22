@@ -7,4 +7,4 @@ std::vector<double> FillVector();
 
 void PrintVector(const std::vector<double> &Vector);
 
-std::vector<double> VectorTransform(std::vector<double> &Vector);
+std::vector<double> VectorTransform(std::vector<double> const& Vector);

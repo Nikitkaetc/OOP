@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
 	vector<double> vec = FillVector();
-	VectorTransform(vec);
+	vec = VectorTransform(vec);
 	PrintVector(vec);
 	return 0;
 }
