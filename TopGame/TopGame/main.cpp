@@ -1,198 +1,191 @@
-#include "map.h"
-#include "view.h"
-#include <sstream>
 #include <SFML/Graphics.hpp>
+//#include "map.h"
+#include "view.h"
 #include <iostream>
-// ‡ÏÂ‡ ‚Ë‰‡. ŒŒœ
+#include <sstream>
+#include "mission.h"
+#include "iostream"
+#include "level.h"
+#include <vector>
+#include <list>
+
+#include "TinyXML/tinyxml.h"
+//–¿«Œ¡–¿“‹—ﬂ — LEVEL.H «¿À»“‹ Õ¿ √»“’¿¡!!!  À¿——€ » œ≈–≈’Œƒ   ŒŒœ!!!
 using namespace sf;
-using namespace std;
-class Player {
-private: float x, y;
+class Entity {
 public:
-	float w, h, dx, dy, speed;
-	int dir, playerScore, health;
-	bool life;
-	String File; 
-	Image image;
+	std::vector<Object> obj;
+	float dx, dy, x, y, speed, moveTimer;
+	int w, h, health;
+	bool life, isMove, onGround;
 	Texture texture;
 	Sprite sprite;
-Player(String F, float X, float Y, float W, float H) {
-	dir = 0; speed = 0; playerScore = 0; health = 100;
-	life = true;
-	File = F;
-	w = W; h = H;
-	image.loadFromFile("images/" + File);
-	image.createMaskFromColor(Color(41, 33, 59));
-	texture.loadFromImage(image);
-	sprite.setTexture(texture);
-	x = X; y = Y;
-	sprite.setTextureRect(IntRect(0, 0, w, h));
-}
-void update(float time) 
-{
-	switch (dir)
-	{
-	case 0: dx = speed; dy = 0; break;
-	case 1: dx = -speed; dy = 0; break;
-	case 2: dx = 0; dy = speed; break;
-	case 3: dx = 0; dy = -speed; break;
+	String name;
+	Entity(Image &image, String Name, float X, float Y, int W, int H) {
+		x = X; y = Y; w = W; h = H; name = Name; moveTimer = 0;
+		speed = 0; health = 100; dx = 0; dy = 0;
+		life = true; onGround = false; isMove = false;
+		texture.loadFromImage(image);
+		sprite.setTexture(texture);
+		sprite.setOrigin(w / 2, h / 2);
 	}
 
-	x += dx*time;
-	y += dy*time;
+	FloatRect getRect() {
+		return FloatRect(x, y, w, h);
+	}
+};
+class Player :public Entity {
+public:
+	enum { left, right, up, down, jump, stay } state;
+	int playerScore;
 
-	speed = 0;
-	sprite.setPosition(x, y); 
-	interactionWithMap();
-	if (health <= 0) { life = false; speed = 0; }
-}
-float getplayercoordinateX() {
-	return x;
-}
-float getplayercoordinateY() {	
-	return y;
-}
-void interactionWithMap()//Ù-ˆËˇ ‚Á‡ËÏÓ‰ÂÈÒÚ‚Ëˇ Ò Í‡ÚÓÈ
-{
+	Player(Image &image, String Name, Level &lev, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) {
+		playerScore = 0; state = stay; obj = lev.GetAllObjects();
+		if (name == "Player1") {
+			sprite.setTextureRect(IntRect(0, 0, w, h));
+		}
+	}
 
-	for (int i = y / 32; i < (y + h) / 32; i++)
-		for (int j = x / 32; j<(x + w) / 32; j++)
-		{
-			if (TileMap[i][j] == '0')
-			{
-				if (dy>0)
-				{
-					y = i * 32 - h;
-				}
-				if (dy<0)
-				{
-					y = i * 32 + 32;
-				}
-				if (dx>0)
-				{
-					x = j * 32 - w;
-				}
-				if (dx < 0)
-				{
-					x = j * 32 + 32;
-				}
+	void control() {
+		if (Keyboard::isKeyPressed) {
+			if (Keyboard::isKeyPressed(Keyboard::Left)) {
+				state = left; speed = 0.1;
+				sprite.setTextureRect(IntRect(w, 0, -w, h));
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Right)) {
+				state = right; speed = 0.1;
+				sprite.setTextureRect(IntRect(0, 0, w, h));
 			}
 
-			if (TileMap[i][j] == 's') {
-				playerScore++;
-				TileMap[i][j] = ' ';
-			}
-			if (TileMap[i][j] == 'f') {
-				health -= 40;
-				TileMap[i][j] = ' ';
+			if ((Keyboard::isKeyPressed(Keyboard::Up)) && (onGround)) {
+				state = jump; dy = -0.6; onGround = false;
 			}
 
-			if (TileMap[i][j] == 'h') {
-				health += 20;
-				TileMap[i][j] = ' ';
+			if (Keyboard::isKeyPressed(Keyboard::Down)) {
+				state = down;
 			}
 		}
-}
+	}
+
+
+
+	void checkCollisionWithMap(float Dx, float Dy)
+	{
+		for (int i = 0; i<obj.size(); i++)
+			if (getRect().intersects(obj[i].rect))
+			{
+				if (obj[i].name == "solid")
+				{
+					if (Dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
+					if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
+					if (Dx>0) { x = obj[i].rect.left - w; }
+					if (Dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
+				}
+			}
+	}
+
+	void update(float time)
+	{
+		control();
+		switch (state)
+		{
+		case right:dx = speed; break;
+		case left:dx = -speed; break;
+		case up: break;
+		case down: dx = 0; break;
+		case stay: break;
+		}
+		x += dx*time;
+		checkCollisionWithMap(dx, 0);
+		y += dy*time;
+		checkCollisionWithMap(0, dy);
+		sprite.setPosition(x + w / 2, y + h / 2);
+		if (health <= 0) { life = false; }
+		if (!isMove) { speed = 0; }
+		setPlayerCoordinateForView(x, y);
+		if (life) { setPlayerCoordinateForView(x, y); }
+		dy = dy + 0.0015*time;
+	}
+};
+
+
+
+class Enemy :public Entity {
+public:
+	Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) {
+		obj = lvl.GetObjects("solid");
+		if (name == "EasyEnemy") {
+			sprite.setTextureRect(IntRect(0, 0, w, h));
+			dx = 0.1;
+		}
+	}
+
+	void checkCollisionWithMap(float Dx, float Dy)
+	{
+		for (int i = 0; i<obj.size(); i++)
+			if (getRect().intersects(obj[i].rect))
+			{
+				if (Dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
+				if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
+				if (Dx>0) { x = obj[i].rect.left - w;  dx = -0.1; sprite.scale(-1, 1); }
+				if (Dx < 0) { x = obj[i].rect.left + obj[i].rect.width; dx = 0.1; sprite.scale(-1, 1); }
+			}
+	}
+
+	void update(float time)
+	{
+		if (name == "EasyEnemy") {
+			checkCollisionWithMap(dx, 0);
+			x += dx*time;
+			sprite.setPosition(x + w / 2, y + h / 2);
+			if (health <= 0) { life = false; }
+		}
+	}
 };
 
 int main()
 {
 	RenderWindow window(VideoMode(640, 480), "Game");
+	view.reset(FloatRect(0, 0, 640, 480));
 
-	view.reset(sf::FloatRect(0, 0, 640, 480));
+	Level lvl;
+	lvl.LoadFromFile("map.tmx");
 
-	Font font;
-	font.loadFromFile("CyrilicOld.ttf");
-	Text text("", font, 20);
-	text.setColor(Color::Red);
-	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	Image heroImage;
+	heroImage.loadFromFile("images/Player.png");
+	heroImage.createMaskFromColor(Color(34, 177, 76));
 
-	Image map_image;
-	map_image.loadFromFile("images/map.png");
-	Texture map;
-	map.loadFromImage(map_image);
-	Sprite s_map;
-	s_map.setTexture(map);
+	Image easyEnemyImage;
+	easyEnemyImage.loadFromFile("images/EasyEnemy.png");
 
-	Player p("hero.png", 320, 240, 96.0, 96.0);
-	float CurrentFrame = 0;
+	Object player = lvl.GetObject("player");
+	Object easyEnemyObject = lvl.GetObject("easyEnemy");
+
+	Player p(heroImage, "Player1", lvl, player.rect.left, player.rect.top, 36, 64);
+	Enemy easyEnemy(easyEnemyImage, "EasyEnemy", lvl, easyEnemyObject.rect.left, easyEnemyObject.rect.top, 69, 129);
+
 	Clock clock;
-	Clock gameTimeClock; 
-	int gameTime = 0;
 	while (window.isOpen())
 	{
+
 		float time = clock.getElapsedTime().asMicroseconds();
-		if (p.life) gameTime = gameTimeClock.getElapsedTime().asSeconds();
+
 		clock.restart();
 		time = time / 800;
+
 		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed)
+			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		if (p.life) {
-			if (Keyboard::isKeyPressed(Keyboard::A)) {
-				p.dir = 1; p.speed = 0.1;
-				CurrentFrame += 0.005*time;
-				if (CurrentFrame > 3) CurrentFrame -= 3;
-				p.sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96));
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::D)) {
-				p.dir = 0; p.speed = 0.1;
-				CurrentFrame += 0.005*time;
-				if (CurrentFrame > 3) CurrentFrame -= 3;
-				p.sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 192, 96, 96));
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::W)) {
-				p.dir = 3; p.speed = 0.1;
-				CurrentFrame += 0.005*time;
-				if (CurrentFrame > 3) CurrentFrame -= 3;
-				p.sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 307, 96, 96));
-
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::S)) {
-				p.dir = 2; p.speed = 0.1;
-				CurrentFrame += 0.005*time;
-				if (CurrentFrame > 3) CurrentFrame -= 3;
-				p.sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
-
-			}
-		}
-		getplayercoordinateforview(p.getplayercoordinateX(), p.getplayercoordinateY());
 		p.update(time);
+		easyEnemy.update(time);
 		window.setView(view);
-		window.clear();
-		for (int i = 0; i < HEIGHT_MAP; i++)
-			for (int j = 0; j < WIDTH_MAP; j++)
-			{
-				if (TileMap[i][j] == ' ')  s_map.setTextureRect(IntRect(0, 0, 32, 32));
-				if (TileMap[i][j] == 's')  s_map.setTextureRect(IntRect(32, 0, 32, 32));
-				if ((TileMap[i][j] == '0')) s_map.setTextureRect(IntRect(64, 0, 32, 32));
-				if ((TileMap[i][j] == 'f')) s_map.setTextureRect(IntRect(96, 0, 32, 32));
-				if ((TileMap[i][j] == 'h')) s_map.setTextureRect(IntRect(128, 0, 32, 32));
-
-				s_map.setPosition(j * 32, i * 32);
-
-				window.draw(s_map);
-			}
-		ostringstream playerHealthString, gameTimeString;
-		playerHealthString << p.health; gameTimeString << gameTime;
-		if (p.life)
-		{
-			text.setString("«‰ÓÓ‚¸Â: " + playerHealthString.str() + "\n¬ÂÏˇ Ë„˚: " + gameTimeString.str());
-			text.setPosition(view.getCenter().x - 165, view.getCenter().y - 200);
-		}
-		else
-		{
-			text.setString("GAME OVER");
-			text.setPosition(view.getCenter().x, view.getCenter().y);
-		}
+		window.clear(Color(77, 83, 140));
+		lvl.Draw(window);
+		window.draw(easyEnemy.sprite);
 		window.draw(p.sprite);
-		window.draw(text);
 		window.display();
 	}
 	return 0;
