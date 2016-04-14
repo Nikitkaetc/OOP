@@ -160,8 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="level.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="mission.h" />
     <ClInclude Include="TinyXML\tinystr.h" />
     <ClInclude Include="TinyXML\tinyxml.h" />
     <ClInclude Include="view.h" />
