@@ -37,6 +37,7 @@ public:
 	std::vector<Object> GetAllObjects();
 	void Draw(sf::RenderWindow &window);
 	sf::Vector2i GetTileSize();
+	int levelNumber;
 
 private:
 	int width, height, tileWidth, tileHeight;
