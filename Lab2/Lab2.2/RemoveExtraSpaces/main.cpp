@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-	string arg = ReadingString();
+	string arg = ReadLineFromConsole();
 	arg = RemoveExtraSpaces(arg);
 	PrintString(arg);
 	return 0;

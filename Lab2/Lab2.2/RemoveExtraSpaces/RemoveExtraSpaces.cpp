@@ -4,16 +4,20 @@
 #include <iterator>
 #include <algorithm>
 #include <string>
+#include <boost/algorithm/string.hpp>
 using namespace std;
 
 string RemoveExtraSpaces(string const& arg)
 {
 	string str = arg;
-	str.erase(remove(str.begin(), str.end(), ' '), str.end());
+	if (!str.empty())
+	{
+		boost::trim(str);
+	}
 	return str;
 }
 
-string ReadingString()
+string ReadLineFromConsole()
 {
 	string str;
 	getline(cin, str);

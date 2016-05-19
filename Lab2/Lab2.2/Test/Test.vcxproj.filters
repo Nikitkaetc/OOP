@@ -32,9 +32,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="RemoveExtraSpaceTest.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>

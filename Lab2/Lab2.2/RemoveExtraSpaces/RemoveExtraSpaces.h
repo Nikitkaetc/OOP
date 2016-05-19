@@ -5,4 +5,4 @@ std::string RemoveExtraSpaces(std::string const& arg);
 
 void PrintString(std::string const&arg);
 
-std::string ReadingString();
+std::string ReadLineFromConsole();
