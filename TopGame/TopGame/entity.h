@@ -10,9 +10,9 @@ public:
 	float dx, dy, x, y, speed, moveTimer;
 	int w, h, health, goingSide;
 	bool life, isMove, onGround;
-	enum stateObject 
-	{ 
-		rigth, left, stay, hit, go 
+	enum stateObject
+	{
+		rigth, left, stay, hit, go
 	};
 	stateObject stateenemy;
 	Texture texture;

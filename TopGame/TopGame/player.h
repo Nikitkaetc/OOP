@@ -26,51 +26,50 @@ public:
 	}
 
 	void control(float time) {
-			state = stay;
-		if (Keyboard::isKeyPressed) {
-			if (Keyboard::isKeyPressed(Keyboard::A)) {
-				isRigth = false;
-				state = left; speed = 0.1;
-				if (!Keyboard::isKeyPressed(Keyboard::W)) {
-					CurrentFrame += 0.005*time;
-					if (CurrentFrame > 4) CurrentFrame -= 4;
-					sprite.setTextureRect(IntRect(191 + (40 * int(CurrentFrame)), 8, -w, h));
-				}
-				else {
-					sprite.setTextureRect(IntRect(118, 74, -31, 63));
-				}
+		state = stay;
+		if (Keyboard::isKeyPressed(Keyboard::A)) {
+			isRigth = false;
+			state = left; speed = 0.1; isHit = false;
+			if (!Keyboard::isKeyPressed(Keyboard::W)) {
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 4) CurrentFrame -= 4;
+				sprite.setTextureRect(IntRect(191 + (40 * int(CurrentFrame)), 8, -w, h));
 			}
-			if (Keyboard::isKeyPressed(Keyboard::D)) {
-				isRigth = true;
-				state = right; speed = 0.1;
-				if (!Keyboard::isKeyPressed(Keyboard::W)) {
-					CurrentFrame += 0.005*time;
-					if (CurrentFrame > 4) CurrentFrame -= 4;
-					sprite.setTextureRect(IntRect(151 + (40 * int(CurrentFrame)), 8, w, h));
-				}
-				else {
-					sprite.setTextureRect(IntRect(87, 74, 31, 63));
-				}
-			}
-
-			if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround)) {
-				state = jump; dy = -0.6; onGround = false;
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::S)) {
-				state = down;
-			}
-			if (Keyboard::isKeyPressed(Keyboard::Space)) {
-				state = hit;
-					isHit = true;
-					if (isRigth) {
-						sprite.setTextureRect(IntRect(320, 8, 50, h));
-					}
-					else {
-						sprite.setTextureRect(IntRect(370, 8, -50, h));
-					}
+			else {
+				sprite.setTextureRect(IntRect(118, 74, -31, 63));
 			}
 		}
+		if (Keyboard::isKeyPressed(Keyboard::D)) {
+			isRigth = true;
+			state = right; speed = 0.1; isHit = false;
+			if (!Keyboard::isKeyPressed(Keyboard::W)) {
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 4) CurrentFrame -= 4;
+				sprite.setTextureRect(IntRect(151 + (40 * int(CurrentFrame)), 8, w, h));
+			}
+			else {
+				sprite.setTextureRect(IntRect(87, 74, 31, 63));
+			}
+		}
+
+		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround)) {
+			state = jump; dy = -0.6; onGround = false; isHit = false;
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::S)) {
+			state = down;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Space)) {
+			state = hit;
+				isHit = true;
+				if (isRigth) {
+					sprite.setTextureRect(IntRect(320, 8, 50, h));
+				}
+				else {
+					sprite.setTextureRect(IntRect(370, 8, -50, h));
+				}
+		}
+		
 		if (state == stay) {
 			isHit = false;
 			sprite.setTextureRect(IntRect(151, 8, w, h));
