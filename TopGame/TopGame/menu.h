@@ -1,5 +1,8 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
 using namespace sf;
+
 void menu(RenderWindow & window) {
 	Texture menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground;
 	menuTexture1.loadFromFile("images/111.png");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="27" tilewidth="32" tileheight="32" backgroundcolor="#4d538c" nextobjectid="74">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="27" tilewidth="32" tileheight="32" backgroundcolor="#4d538c" nextobjectid="79">
  <tileset firstgid="1" name="Tiny_Chao_Garden_SonicAdv_3_Tile_Sheet" tilewidth="32" tileheight="32">
   <image source="images/Tiny_Chao_Garden_SonicAdv_3_Tile_Sheet.png" width="1920" height="192"/>
  </tileset>
@@ -2715,7 +2715,6 @@
   <object id="49" name="solid" x="832" y="769.542" width="317.333" height="78.458"/>
   <object id="50" name="solid" x="705.5" y="768.292" width="30" height="86.458"/>
   <object id="51" name="solid" x="4" y="846.876" width="663.86" height="16"/>
-  <object id="53" name="easyEnemy" x="967.24" y="639.118" width="69" height="129"/>
   <object id="57" name="solid" x="1121.19" y="674.209" width="31" height="89"/>
   <object id="58" name="solid" x="6" y="603.333" width="10" height="240"/>
   <object id="59" name="solid" x="1584" y="450" width="11.33" height="313.333"/>
@@ -2725,12 +2724,16 @@
   <object id="64" name="solid" x="1152.83" y="847.708" width="254.5" height="11.25"/>
   <object id="65" name="solid" x="1408.17" y="801.708" width="95.1667" height="11.25"/>
   <object id="66" name="solid" x="1472.17" y="737.708" width="95.8333" height="11.25"/>
-  <object id="67" name="player" x="196" y="528" width="32" height="32"/>
+  <object id="67" name="player" x="101" y="728" width="32" height="32"/>
   <object id="68" name="solid" x="608.5" y="832.5" width="62.25" height="12.4583"/>
   <object id="69" name="solid" x="1374.08" y="641.375" width="95.8333" height="11.25"/>
   <object id="70" name="solid" x="1247.08" y="577.375" width="95.8333" height="11.25"/>
   <object id="71" name="solid" x="1120.08" y="513.375" width="95.8333" height="11.25"/>
-  <object id="72" name="easyEnemy" x="451.985" y="717.136" width="69" height="129"/>
-  <object id="73" name="easyEnemy" x="1199.5" y="717.167" width="69" height="129"/>
+  <object id="72" name="easyEnemy" x="485.985" y="782.136" width="39" height="62"/>
+  <object id="74" name="easyEnemy" x="995.5" y="704" width="39" height="62"/>
+  <object id="75" name="easyEnemy" x="1282.5" y="781" width="39" height="62"/>
+  <object id="76" name="easyEnemy" x="763.5" y="774" width="39" height="62"/>
+  <object id="77" name="easyEnemy" x="382.5" y="782" width="39" height="62"/>
+  <object id="78" name="bulleterEnemy" x="700" y="704" width="39" height="62"/>
  </objectgroup>
 </map>
