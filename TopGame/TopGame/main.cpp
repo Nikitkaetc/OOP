@@ -63,7 +63,7 @@ struct InitializeData
 		std::vector<Object> e = lvl.GetObjects("bulleterEnemy");
 		for (int i = 0; i < e.size(); i++)
 		{
-			entities.push_back(new Enemy(BulleterImage, "BulleterEnemy", lvl, e[i].rect.left, e[i].rect.top, 62, 72));
+			entities.push_back(new Enemy(BulleterImage, "BulleterEnemy", lvl, e[i].rect.left, e[i].rect.top, 44, 62));
 		}
 
 		

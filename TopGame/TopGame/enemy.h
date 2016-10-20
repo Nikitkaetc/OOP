@@ -10,16 +10,17 @@ class Enemy :public Entity {
 public:
 	Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");
-		stateenemy = rigth;
 		goingSide = 0;
 		CurrentFrame = 0;
 		if (name == "CAEnemy") {
 			sprite.setTextureRect(IntRect(170, 11, w, h));
 			sprite.setOrigin(w / 2, h / 2);
+			stateenemy = rigth;
 		}
 		if (name == "BulleterEnemy") {
-			sprite.setTextureRect(IntRect(250, 92, -w, h));
+			sprite.setTextureRect(IntRect(312, 19, -w, h));
 			sprite.setOrigin(w / 2, h / 2);
+			stateenemy = left;
 		}
 	}
 
@@ -71,6 +72,43 @@ public:
 			}
 		}
 	}
+
+	void animationBulleter(float time)
+	{
+		if (stateenemy == left)
+		{
+			CurrentFrame += 0.005*time;
+			if (CurrentFrame > 3) CurrentFrame -= 3;
+			sprite.setTextureRect(IntRect(356 + (44 * int(CurrentFrame)), 19, -w, h));
+		}
+		if (stateenemy == rigth)
+		{
+			CurrentFrame += 0.005*time;
+			if (CurrentFrame > 3) CurrentFrame -= 3;
+			sprite.setTextureRect(IntRect(312 + (44 * int(CurrentFrame)), 19, w, h));
+		}
+		if (stateenemy == hit)
+		{
+			if (goingSide == 1)
+			{
+				CurrentFrame += 0.003*time;
+				if (CurrentFrame > 2) CurrentFrame -= 2;
+				{
+					sprite.setTextureRect(IntRect(110 + (54 * int(CurrentFrame)), 94, -54, h));
+				}
+			}
+			else if (goingSide == 2)
+			{
+				CurrentFrame += 0.003*time;
+				if (CurrentFrame > 2) CurrentFrame -= 2;
+				{
+					sprite.setTextureRect(IntRect(68 + (54 * int(CurrentFrame)), 94, 54, h));
+				}
+			}
+		}
+	}
+
+
 	void update(float time)
 	{
 		if (name == "CAEnemy") {
@@ -92,6 +130,7 @@ public:
 
 		}
 		if (name == "BulleterEnemy") {
+			animationBulleter(time);
 			switch (stateenemy)
 			{
 			case left: dx = -0.1; break;
