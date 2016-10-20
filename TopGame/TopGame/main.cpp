@@ -14,8 +14,6 @@
 #include "LifeBar.h"
 #include <vector>
 #include <list>
-//Создание нового врага; Дизайн; Модульность!!
-//Сделать общий enum. Дать AI врагу. Погоня и атака. Анимировать все.
 #include "TinyXML/tinyxml.h"
 
 using namespace sf;
@@ -60,7 +58,7 @@ struct InitializeData
 		std::vector<Object> e1 = lvl.GetObjects("easyEnemy");
 		for (int i = 0; i < e1.size(); i++)
 		{
-			entities.push_back(new Enemy(easyEnemyImage, "CAEnemy", lvl, e1[i].rect.left, e1[i].rect.top, 39, 62));
+			entities.push_back(new Enemy(easyEnemyImage, "CAEnemy", lvl, e1[i].rect.left, e1[i].rect.top, 39, 61));
 		}
 		std::vector<Object> e = lvl.GetObjects("bulleterEnemy");
 		for (int i = 0; i < e.size(); i++)
@@ -108,18 +106,18 @@ struct InitializeData
 
 	void EnemyColiisions(Entity *it, float gameTime)
 	{
-		if (it->getRect().intersects(p->getRect()))//если прямоугольник спрайта объекта пересекается с игроком
+		if (it->getRect().intersects(p->getRect()))
 		{
-			if ((it)->name == "CAEnemy") {
-				if (gameTime > p->lastDamageTime + 3)
+			if (((it)->name == "CAEnemy") || ((it)->name == "BulleterEnemy")) {
+				if (gameTime > p->lastDamageTime + 1)
 				{
-					if (!p->isHit)
+					if ((!p->isHit) && ((it)->stateenemy == (it)->hit))
 					{
-						p->health -= 20;
+						p->health -= 5;
 						p->lastDamageTime = gameTime;
 						p->sprite.setColor(Color::Red);
 					}
-					else
+					else if (p->isHit)
 					{
 						(it)->health = 0;
 						p->isHit = false;
@@ -139,22 +137,30 @@ struct InitializeData
 		for (auto it = entities.begin(); it != entities.end(); it++)//проходимся по эл-там списка
 		{
 			EnemyColiisions(*it, gameTime);
-			if (((*it)->x < p->x + 35) && ((*it)->x > p->x - 35))
-			{
-				(*it)->stateenemy = (*it)->hit;
-			}
-			else
-			{
-				if ((*it)->name == "CAEnemy") {
-					if ((*it)->goingSide == 1)
-					{
-						(*it)->stateenemy = (*it)->left;
-					}
-					else {
-						(*it)->stateenemy = (*it)->rigth;
-					}
+				if (((*it)->x < p->x + 30) && ((*it)->x > p->x - 30) && ((*it)->y < p->y + 7) && ((*it)->y > p->y - 7))
+				{
+					(*it)->stateenemy = (*it)->hit;
 				}
-			}
+			/*if (((*it)->x < p->x + 200) && ((*it)->x < p->x - 200))
+			{
+				if ((*it)->x < p->x) {
+					(*it)->stateenemy = (*it)->left;
+				}
+				else if ((*it)->x > p->x)
+				{
+					(*it)->stateenemy = (*it)->rigth;
+				}
+			}*/
+			else if (((*it)->x < p->x) && ((*it)->stateenemy == (*it)->hit))
+				{
+					(*it)->stateenemy = (*it)->rigth;
+					(*it)->goingSide = 2;
+				}
+			else if (((*it)->x > p->x) && ((*it)->stateenemy == (*it)->hit))
+				{
+					(*it)->stateenemy = (*it)->left;
+					(*it)->goingSide = 1;
+				}
 			if (gameTime > p->lastDamageTime + 0.5)
 			{
 				p->sprite.setColor(Color::White);

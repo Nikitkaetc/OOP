@@ -8,11 +8,12 @@ class Entity {
 public:
 	std::vector<Object> obj;
 	float dx, dy, x, y, speed, moveTimer;
+	float CurrentFrame;
 	int w, h, health, goingSide;
 	bool life, isMove, onGround;
 	enum stateObject
 	{
-		rigth, left, stay, hit, go
+		rigth, left, stay, hit, go, attackleft, attackrigth
 	};
 	stateObject stateenemy;
 	Texture texture;

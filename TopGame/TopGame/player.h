@@ -25,11 +25,10 @@ public:
 		lastDamageTime = -3;
 	}
 
-	void control(float time) {
-		state = stay;
+	void animation(float time)
+	{
 		if (Keyboard::isKeyPressed(Keyboard::A)) {
 			isRigth = false;
-			state = left; speed = 0.1; isHit = false;
 			if (!Keyboard::isKeyPressed(Keyboard::W)) {
 				CurrentFrame += 0.005*time;
 				if (CurrentFrame > 4) CurrentFrame -= 4;
@@ -41,7 +40,6 @@ public:
 		}
 		if (Keyboard::isKeyPressed(Keyboard::D)) {
 			isRigth = true;
-			state = right; speed = 0.1; isHit = false;
 			if (!Keyboard::isKeyPressed(Keyboard::W)) {
 				CurrentFrame += 0.005*time;
 				if (CurrentFrame > 4) CurrentFrame -= 4;
@@ -50,6 +48,36 @@ public:
 			else {
 				sprite.setTextureRect(IntRect(87, 74, 31, 63));
 			}
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			if (isRigth) {
+				sprite.setTextureRect(IntRect(320, 8, 50, h));
+			}
+			else {
+				sprite.setTextureRect(IntRect(370, 8, -50, h));
+			}
+		}
+		if (state == stay) {
+			isHit = false;
+			if (isRigth) {
+				sprite.setTextureRect(IntRect(151, 8, w, h));
+			}
+			else
+			{
+				sprite.setTextureRect(IntRect(151+w, 8, -w, h));
+			}
+		}
+	}
+	void control(float time) {
+		state = stay;
+		if (Keyboard::isKeyPressed(Keyboard::A)) {
+			isRigth = false;
+			state = left; speed = 0.1; isHit = false;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::D)) {
+			isRigth = true;
+			state = right; speed = 0.1; isHit = false;
 		}
 
 		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround)) {
@@ -62,17 +90,9 @@ public:
 		else if (Keyboard::isKeyPressed(Keyboard::Space)) {
 			state = hit;
 				isHit = true;
-				if (isRigth) {
-					sprite.setTextureRect(IntRect(320, 8, 50, h));
-				}
-				else {
-					sprite.setTextureRect(IntRect(370, 8, -50, h));
-				}
 		}
-		
 		if (state == stay) {
 			isHit = false;
-			sprite.setTextureRect(IntRect(151, 8, w, h));
 		}
 	}
 
@@ -88,11 +108,7 @@ public:
 					if (Dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
 					if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
 					if (Dx>0) { x = obj[i].rect.left - w; }
-					if (x >= obj[i].rect.left - 20) { tolchok = false; }
-					else { tolchok = true; }
 					if (Dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
-					if (x <= obj[i].rect.left + 20) { tolchok = false; }
-					else { tolchok = true; }
 				}
 			}
 	}
@@ -102,6 +118,7 @@ public:
 		if (life)
 		{
 			control(time);
+			animation(time);
 			switch (state)
 			{
 			case right:dx = speed; break;
