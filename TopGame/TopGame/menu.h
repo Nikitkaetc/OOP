@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-void menu(RenderWindow & window) {
+static void menu(RenderWindow & window) {
 	Texture menuTexture1, menuTexture2, menuBackground;
 	menuTexture1.loadFromFile("images/111.png");
 	menuTexture2.loadFromFile("images/222.png");
@@ -39,7 +39,7 @@ void menu(RenderWindow & window) {
 	}
 }
 
-void menuGameOver(RenderWindow & window) {
+static void menuGameOver(RenderWindow & window) {
 	Texture menuTexture1, menuTexture2, menuBackground;
 	menuTexture1.loadFromFile("images/111.png");
 	menuTexture2.loadFromFile("images/222.png");

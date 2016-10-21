@@ -1,4 +1,7 @@
 #pragma once
+
+
+/*
 #include <SFML\Graphics.hpp>
 #include "entity.h"
 #include "level.h"
@@ -42,3 +45,4 @@ public:
 		sprite.setPosition(x + w / 2, y + h / 2);
 	}
 };
+*/
