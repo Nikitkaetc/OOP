@@ -15,7 +15,7 @@
 #include <vector>
 #include <list>
 #include "TinyXML/tinyxml.h"
-
+//Улучшить код с Update в player. Улучшение кода. Создать еще 2 карты. Подбирание объекта!
 using namespace sf;
 using namespace std;
 
@@ -87,8 +87,8 @@ struct InitializeData
 					window.close();
 				//if (p->isShot == true) { p->isShot = false; entities.push_back(new Bullet(BulletImage, "Bullet", lvl, p->x, p->y, 31, 7, p->state)); }
 			}
-			if (p->x > 1535) { lvl.levelNumber++; numberLevel++; return true; }
-			if (p->y > 864) { p->life = false; }
+			if (p->x > 3790) { lvl.levelNumber++; numberLevel++; return true; }
+			if (p->y > 900) { p->life = false; }
 			if (p->life == false) { menuGameOver(window);  return true; }
 			if (Keyboard::isKeyPressed(Keyboard::Escape)) { return false; }
 
@@ -100,8 +100,8 @@ struct InitializeData
 	}
 
 	void ChangeLevel(Level &lvl, int &numberLevel) {
-		if (numberLevel == 1) { lvl.LoadFromFile("map.tmx"); }
-		if (numberLevel == 2) { lvl.LoadFromFile("map2.tmx"); }
+		if (numberLevel == 1) { lvl.LoadFromFile("map2.tmx"); }
+		if (numberLevel == 2) { lvl.LoadFromFile("map.tmx"); }
 		if (numberLevel == 3) { lvl.LoadFromFile("map.tmx"); }
 	}
 

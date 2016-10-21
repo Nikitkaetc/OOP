@@ -15,7 +15,8 @@ d:\иип\topgame\topgame\player.h(44): warning C4244: '+=': conversion from 'do
 d:\иип\topgame\topgame\player.h(76): warning C4305: '=': truncation from 'double' to 'float'
 d:\иип\topgame\topgame\player.h(80): warning C4305: '=': truncation from 'double' to 'float'
 d:\иип\topgame\topgame\player.h(84): warning C4305: '=': truncation from 'double' to 'float'
-d:\иип\topgame\topgame\player.h(141): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\иип\topgame\topgame\player.h(115): warning C4305: '=': truncation from 'double' to 'float'
+d:\иип\topgame\topgame\player.h(152): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\иип\topgame\topgame\bullet.h(15): warning C4305: '=': truncation from 'double' to 'float'
 d:\иип\topgame\topgame\enemy.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\иип\topgame\topgame\enemy.h(22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -35,5 +36,8 @@ d:\иип\topgame\topgame\enemy.h(137): warning C4305: '=': truncation from 'dou
 d:\иип\topgame\topgame\enemy.h(147): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\иип\topgame\topgame\lifebar.h(39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\иип\topgame\topgame\main.cpp(78): warning C4244: 'initializing': conversion from 'sf::Int64' to 'float', possible loss of data
+  Generating Code...
 d:\иип\topgame\topgame\level.h(296): warning C4715: 'Level::GetObject': not all control paths return a value
+  Skipping... (no relevant changes detected)
+  game.cpp
   TopGame.vcxproj -> D:\ИиП\TopGame\x64\Debug\TopGame.exe

@@ -81,7 +81,7 @@ public:
 		}
 
 		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround)) {
-			state = jump; dy = -0.6; onGround = false; isHit = false;
+				state = jump; dy = -0.6; isHit = false; onGround = false;
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::S)) {
@@ -109,6 +109,17 @@ public:
 					if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
 					if (Dx>0) { x = obj[i].rect.left - w; }
 					if (Dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
+				}
+				if (obj[i].name == "thorns")
+				{
+					health -= 5; dy = -0.3;
+				}
+				if (obj[i].name == "heal")
+				{
+					if (health < 100)
+					{
+						health += 20;
+					}
 				}
 			}
 	}

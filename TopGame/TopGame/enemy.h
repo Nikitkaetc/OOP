@@ -94,7 +94,7 @@ public:
 				CurrentFrame += 0.003*time;
 				if (CurrentFrame > 2) CurrentFrame -= 2;
 				{
-					sprite.setTextureRect(IntRect(110 + (54 * int(CurrentFrame)), 94, -54, h));
+					sprite.setTextureRect(IntRect(122 + (54 * int(CurrentFrame)), 94, -54, h));
 				}
 			}
 			else if (goingSide == 2)

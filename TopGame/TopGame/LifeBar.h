@@ -14,7 +14,7 @@ public:
 
 	LifeBar()
 	{
-		image.loadFromFile("images/lif.png");
+		image.loadFromFile("images/lifeBar.png");
 		image.createMaskFromColor(Color(237, 28, 36));
 		t.loadFromImage(image);
 		s.setTexture(t);
