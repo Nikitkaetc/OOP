@@ -87,8 +87,9 @@ struct InitializeData
 					window.close();
 				//if (p->isShot == true) { p->isShot = false; entities.push_back(new Bullet(BulletImage, "Bullet", lvl, p->x, p->y, 31, 7, p->state)); }
 			}
-			if (p->x > 1500) { lvl.levelNumber++; numberLevel++; return true; }
-			if (Keyboard::isKeyPressed(Keyboard::Tab)) { return true; }
+			if (p->x > 1535) { lvl.levelNumber++; numberLevel++; return true; }
+			if (p->y > 864) { p->life = false; }
+			if (p->life == false) { menuGameOver(window);  return true; }
 			if (Keyboard::isKeyPressed(Keyboard::Escape)) { return false; }
 
 			Update(time, gameTime);
@@ -113,7 +114,7 @@ struct InitializeData
 				{
 					if ((!p->isHit) && ((it)->stateenemy == (it)->hit))
 					{
-						p->health -= 5;
+						p->health -= 10;
 						p->lastDamageTime = gameTime;
 						p->sprite.setColor(Color::Red);
 					}

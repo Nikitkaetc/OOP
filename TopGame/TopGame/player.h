@@ -134,7 +134,7 @@ public:
 			checkCollisionWithMap(0, dy);
 		}
 		sprite.setPosition(x + w / 2, y + h / 2);
-		if (health <= 0) { life = false; }
+		if (health <= 0) { life = false;}
 		if (!isMove) { speed = 0; }
 		setPlayerCoordinateForView(x, y);
 		if (life) { setPlayerCoordinateForView(x, y); }
