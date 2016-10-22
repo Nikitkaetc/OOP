@@ -4,6 +4,7 @@
 #include "level.h"
 #include "player.h"
 #include "enemy.h"
+#include "objects.h"
 #include "menu.h"
 #include "LifeBar.h"
 
@@ -18,8 +19,7 @@ public:
 	Image easyEnemyImage;
 	Image BulleterImage;
 	Image BulletImage;
-	//Texture appleTexture;
-	//Sprite appleSprite;
+	Image appleImage;
 	Player *p;
 	list<Entity*>  entities;
 	vector<Object> apples;

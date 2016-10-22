@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="30" tilewidth="32" tileheight="32" nextobjectid="69">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="30" tilewidth="32" tileheight="32" nextobjectid="73">
  <tileset firstgid="1" name="map1" tilewidth="32" tileheight="32">
   <image source="images/map1.png" width="384" height="192"/>
  </tileset>
@@ -7267,23 +7267,8 @@
   <object id="59" name="thorns" x="963" y="922" width="90" height="31"/>
   <object id="62" name="thorns" x="2178" y="794" width="1337" height="48"/>
   <object id="63" name="thorns" x="1985" y="797.5" width="90" height="31"/>
-  <object id="65" name="heal" x="1126.75" y="585.5" width="20.5" height="19">
-   <properties>
-    <property name="isTaken" value="0"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="67" name="heal" x="1382.75" y="585.5" width="20.5" height="19">
-   <properties>
-    <property name="isTaken" value="0"/>
-   </properties>
-   <ellipse/>
-  </object>
-  <object id="68" name="heal" x="868.75" y="871.5" width="20.5" height="19">
-   <properties>
-    <property name="isTaken" value="0"/>
-   </properties>
-   <ellipse/>
-  </object>
+  <object id="69" name="heal" x="857" y="853" width="32" height="32"/>
+  <object id="71" name="heal" x="1126" y="563" width="32" height="32"/>
+  <object id="72" name="heal" x="1392" y="553" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -18,8 +18,7 @@ Game::Game(int& numberLevel)
 	BulletImage.loadFromFile("images/bullet.png");
 	BulletImage.createMaskFromColor(Color(255, 0, 255));
 
-	//appleTexture.loadFromFile("images/bullet.png");
-	//appleSprite.setTexture(appleTexture);
+	appleImage.loadFromFile("images/map1.png");
 
 	Object player = lvl.GetObject("player");
 	std::list<Entity*>::iterator it;
@@ -36,6 +35,11 @@ Game::Game(int& numberLevel)
 	for (int i = 0; i < e.size(); i++)
 	{
 		entities.push_back(new Enemy(BulleterImage, "BulleterEnemy", lvl, e[i].rect.left, e[i].rect.top, 44, 62));
+	}
+	std::vector<Object> apple = lvl.GetObjects("heal");
+	for (int i = 0; i < apple.size(); i++)
+	{
+		entities.push_back(new ObjectsMap(appleImage, "apple", lvl, apple[i].rect.left, apple[i].rect.top, 32, 32));
 	}
 
 	//apples = lvl.GetObjects("heal");
@@ -106,6 +110,14 @@ void Game::EnemyColiisions(Entity *it, float gameTime)
 			{
 				(it)->health = 0;
 				p->isHit = false;
+			}
+		}
+		if ((it)->name == "apple")
+		{
+			if (p->health <= 90)
+			{
+				p->health += 10;
+				(it)->health = 0;
 			}
 		}
 	}

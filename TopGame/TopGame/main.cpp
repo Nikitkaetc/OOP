@@ -6,17 +6,8 @@
 #include <list>
 #include "TinyXML/tinyxml.h"
 
-//#include "level.h"
-//#include "menu.h"
-//#include "entity.h"
-//#include "player.h"
-//#include "enemy.h"
-//#include "bullet.h"
 #include "game.h"
-
-//#include "LifeBar.h"
-
-//Улучшить код с Update в player. Улучшение кода. Создать еще 2 карты. Подбирание объекта!
+//Улучшение кода(Player update). Проблемки с lifebar. 2 карты
 using namespace sf;
 using namespace std;
 
@@ -28,18 +19,18 @@ bool startGame(RenderWindow &window, int &numberLevel)
 	
 }
 
-void gameRunning(RenderWindow & window, int & numberLevel) 
-{//ф-ция перезагружает игру , если это необходимо
+void gameRunning(RenderWindow &window, int &numberLevel) 
+{
 	if (startGame(window, numberLevel)) 
 	{ 
 		gameRunning(window, numberLevel); 
-	}//принимает с какого уровня начать игру
+	}
 }
 int main()
 {
 	RenderWindow window(VideoMode(640, 480), "Game");
 	menu(window);
-	int numberLevel = 1;//сначала 1-ый уровень
+	int numberLevel = 1;
 	gameRunning(window, numberLevel);
 	return 0;
 }
