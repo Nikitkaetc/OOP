@@ -96,7 +96,6 @@ void Player::checkCollisionWithMap(float Dx, float Dy)
 			if (obj[i].name == "thorns")
 			{
 				health -= 5; dy = -0.3;
-
 			}
 		}
 	//for (int i = 0; i < apples.size(); i++)

@@ -1,10 +1,10 @@
 #include "game.h"
 
-Game::Game(int& numberLevel)
+Game::Game(RenderWindow& window, int& numberLevel)
 {
 	view.reset(FloatRect(0, 0, 640, 480));
 
-	ChangeLevel(lvl, numberLevel);
+	ChangeLevel(window, lvl, numberLevel);
 
 	heroImage.loadFromFile("images/IronMan.png");
 	heroImage.createMaskFromColor(Color(186, 254, 202));
@@ -81,10 +81,13 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel)
 
 }
 
-void Game::ChangeLevel(Level &lvl, int &numberLevel) {
-	if (numberLevel == 1) { lvl.LoadFromFile("map2.tmx"); }
-	if (numberLevel == 2) { lvl.LoadFromFile("map.tmx"); }
-	if (numberLevel == 3) { lvl.LoadFromFile("map.tmx"); }
+void Game::ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel) {
+	if (numberLevel == 1) { lvl.LoadFromFile("map1.tmx"); }
+	if (numberLevel == 2) { lvl.LoadFromFile("map2.tmx"); }
+	if (numberLevel == 3)
+	{
+		menuGameOver(window);
+	}
 }
 
 void Game::EnemyColiisions(Entity *it, float gameTime)
@@ -246,6 +249,7 @@ void Game::setPlayerCoordinateForView(float x, float y) {
 	if (x < 320) tempX = 320;
 	if (x > 3490) tempX = 3490;
 	if (y > 720) tempY = 720;
+	if (y < 240) tempY = 240;
 
 	view.setCenter(tempX, tempY);
 }

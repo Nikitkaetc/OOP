@@ -24,7 +24,7 @@ void LifeBar::update(int k)
 {
 	if (k>0)
 		if (k<max)
-			bar.setSize(Vector2f((max - k) * 114 / max, 12));
+			bar.setSize(Vector2f((max - k) * 100 / max, 12));
 }
 
 void LifeBar::draw(RenderWindow &window)

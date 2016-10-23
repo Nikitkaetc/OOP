@@ -27,9 +27,9 @@ public:
 	LifeBar lifeBarPlayer;
 	View view;
 
-	Game(int& numberLevel);
+	Game(RenderWindow& window, int& numberLevel);
 	bool DoGameLoop(RenderWindow& window, int& numberLevel);
-	void ChangeLevel(Level &lvl, int &numberLevel);
+	void ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel);
 	void EnemyColiisions(Entity *it, float gameTime);
 	void Collisions(list<Entity*>& entities, const float& time, Player* p, float gameTime);
 	void Update(float time, float gameTime);

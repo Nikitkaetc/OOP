@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="30" tilewidth="32" tileheight="32" nextobjectid="73">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="30" tilewidth="32" tileheight="32" nextobjectid="79">
  <tileset firstgid="1" name="map1" tilewidth="32" tileheight="32">
   <image source="images/map1.png" width="384" height="192"/>
  </tileset>
@@ -7212,7 +7212,7 @@
   </data>
  </layer>
  <objectgroup name="collision">
-  <object id="1" name="solid" x="9.33333" y="608" width="20" height="120"/>
+  <object id="1" name="solid" x="9.33333" y="490" width="20" height="238"/>
   <object id="3" name="solid" x="2.66667" y="417.333" width="240" height="28"/>
   <object id="5" name="solid" x="30.6667" y="450" width="240" height="28"/>
   <object id="6" name="solid" x="221.333" y="482" width="240" height="28"/>
@@ -7268,7 +7268,12 @@
   <object id="62" name="thorns" x="2178" y="794" width="1337" height="48"/>
   <object id="63" name="thorns" x="1985" y="797.5" width="90" height="31"/>
   <object id="69" name="heal" x="857" y="853" width="32" height="32"/>
-  <object id="71" name="heal" x="1126" y="563" width="32" height="32"/>
-  <object id="72" name="heal" x="1392" y="553" width="32" height="32"/>
+  <object id="72" name="heal" x="2580" y="629" width="32" height="32"/>
+  <object id="73" name="solid" x="1121.67" y="350" width="62.3335" height="224"/>
+  <object id="74" name="solid" x="1189.67" y="352" width="58.3335" height="94"/>
+  <object id="75" name="solid" x="1255.67" y="354" width="1430.33" height="28"/>
+  <object id="76" name="solid" x="1759.67" y="388" width="2070.33" height="28"/>
+  <object id="77" name="solid" x="2845.67" y="422" width="68.3335" height="94"/>
+  <object id="78" name="solid" x="2237.83" y="421" width="68.3335" height="31"/>
  </objectgroup>
 </map>

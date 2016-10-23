@@ -7,14 +7,14 @@
 #include "TinyXML/tinyxml.h"
 
 #include "game.h"
-//Улучшение кода(Player update). Проблемки с lifebar. 2 карты
+//Улучшение кода(Player update).Объединить menu and menugameover. Оптимизация. - баги(типа меню), все красиво(дедлайн)! 
 using namespace sf;
 using namespace std;
 
 bool startGame(RenderWindow &window, int &numberLevel) 
 {
 	
-	Game game(numberLevel);
+	Game game(window, numberLevel);
 	return game.DoGameLoop(window, numberLevel);
 	
 }
