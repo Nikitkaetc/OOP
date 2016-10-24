@@ -1,6 +1,6 @@
 #include "LifeBar.h"
 
-LifeBar::LifeBar()
+lifeBar::lifeBar()
 {
 	image.loadFromFile("images/lifeBar.png");
 	image.createMaskFromColor(Color(237, 28, 36));
@@ -19,7 +19,7 @@ LifeBar::LifeBar()
 	max = 100;
 }
 
-void LifeBar::update(int k)
+void lifeBar::Update(int k)
 
 {
 	if (k>0)
@@ -27,7 +27,7 @@ void LifeBar::update(int k)
 			bar.setSize(Vector2f((max - k) * 100 / max, 12));
 }
 
-void LifeBar::draw(RenderWindow &window)
+void lifeBar::Draw(RenderWindow &window)
 {
 	Vector2f center = window.getView().getCenter();
 	Vector2f size = window.getView().getSize();

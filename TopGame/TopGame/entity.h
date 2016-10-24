@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <vector>
-
 #include "level.h"
 
 using namespace sf;
@@ -10,15 +9,15 @@ using namespace std;
 class Entity {
 public:
 	std::vector<Object> obj;
-	float dx, dy, x, y, speed, moveTimer;
-	float CurrentFrame;
-	int w, h, health, goingSide;
-	bool life, isMove, onGround;
-	enum stateObject
+	float dx, dy, x, y, speed;
+	float currentFrame;
+	int w, h, health, goingSide, damage;
+	bool life, isHit, isRight, onGround;
+	enum state
 	{
-		rigth, left, stay, hit, go, attackleft, attackrigth
+		right, left, stay, hit, jump
 	};
-	stateObject stateenemy;
+	state state;
 	Texture texture;
 	Sprite sprite;
 	String name;

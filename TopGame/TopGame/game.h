@@ -17,14 +17,14 @@ public:
 	Level lvl;
 	Image heroImage;
 	Image easyEnemyImage;
-	Image BulleterImage;
-	Image BulletImage;
+	Image hardEnemyImage;
+	Image bulletImage;
 	Image appleImage;
 	Player *p;
 	list<Entity*>  entities;
 	vector<Object> apples;
 	Clock clock;
-	LifeBar lifeBarPlayer;
+	lifeBar lifeBarPlayer;
 	View view;
 
 	Game(RenderWindow& window, int& numberLevel);
@@ -34,7 +34,7 @@ public:
 	void Collisions(list<Entity*>& entities, const float& time, Player* p, float gameTime);
 	void Update(float time, float gameTime);
 	void Draw(RenderWindow& window);
-	void setPlayerCoordinateForView(float x, float y);
+	void SetPlayerCoordinateForView(float x, float y);
 
 	~Game();
 };

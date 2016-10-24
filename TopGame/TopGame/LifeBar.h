@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-class LifeBar
+class lifeBar
 {
 public:
 	Image image, imageAva;
@@ -12,8 +12,8 @@ public:
 	int max;
 	RectangleShape bar;
 
-	LifeBar();
-	void update(int k);
-	void draw(RenderWindow &window);
+	lifeBar();
+	void Update(int k);
+	void Draw(RenderWindow &window);
 
 };

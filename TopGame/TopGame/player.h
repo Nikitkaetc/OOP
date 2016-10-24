@@ -5,16 +5,13 @@
 using namespace sf;
 
 class Player :public Entity {
-public:
-	enum { left, right, up, down, jump, stay, hit } state;// ¿œ—
-	int playerScore; 
-	float CurrentFrame;
-	bool isShot, tolchok, isHit, isRigth;
+public: 
 	float lastDamageTime;
 
-	Player(Image &image, String Name, Level &lev, float X, float Y, int W, int H);
-	void animation(float time);
-	void control(float time);
-	void checkCollisionWithMap(float Dx, float Dy);
+	Player(Image &image, String Name, Level &lvl, float X, float Y, int W, int H);
+
+	void Animation(float time);
+	void Control(float time);
+	void CheckCollisionWithMap(float Dx, float Dy);
 	void update(float time);
 };
