@@ -3,8 +3,10 @@
 Game::Game(RenderWindow& window, int& numberLevel)
 {
 	view.reset(FloatRect(0, 0, 640, 480));
-
+	
 	ChangeLevel(window, lvl, numberLevel);
+
+	
 
 	heroImage.loadFromFile("images/IronMan.png");
 	heroImage.createMaskFromColor(Color(186, 254, 202));
@@ -43,17 +45,19 @@ Game::Game(RenderWindow& window, int& numberLevel)
 	}
 }
 
-bool Game::DoGameLoop(RenderWindow& window, int& numberLevel)
+bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
 {
+	music_menu.openFromFile("music/game.ogg");
+	music_menu.setVolume(10);
+	music_menu.play();
+	music_menu.setLoop(true);
 	float gameTime = 0;
-
 	while (window.isOpen())
 	{
 		float time = clock.getElapsedTime().asMicroseconds();
 		gameTime += clock.getElapsedTime().asSeconds();
 		clock.restart();
 		time = time / 800;
-
 		Event event;
 		while (window.pollEvent(event))
 		{
@@ -63,12 +67,12 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel)
 		}
 		if (p->x > 3790) { lvl.levelNumber++; numberLevel++; return true; }
 		if (p->y > 900) { p->life = false; }
-		if (p->life == false) { menuGameOver(window); return true;
+		if (p->life == false) { menuGameOver(window, music_menu); return true;
 		}
 		if (numberLevel == 3)
 		{
 			numberLevel = 1;
-			menuGameOver(window);
+			menuGameOver(window, music_menu);
 			return true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Escape)) { return false; }
@@ -81,9 +85,9 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel)
 }
 
 void Game::ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel) {
-	if (numberLevel == 1) { lvl.LoadFromFile("map1.tmx"); }
-	if (numberLevel == 2) { lvl.LoadFromFile("map2.tmx"); }
-	if (numberLevel == 3) { lvl.LoadFromFile("map2.tmx"); }
+	if (numberLevel == 1) { lvl.LoadFromFile("map/map1.tmx"); }
+	if (numberLevel == 2) { lvl.LoadFromFile("map/map2.tmx"); }
+	if (numberLevel == 3) { lvl.LoadFromFile("map/map2.tmx"); }
 }
 
 void Game::EnemyColiisions(Entity *it, float gameTime)
@@ -95,6 +99,7 @@ void Game::EnemyColiisions(Entity *it, float gameTime)
 			{
 				if ((!p->isHit) && ((it)->state == (it)->hit))
 				{
+					p->sound_damage.play();
 					p->health -= (it)->damage;
 					p->lastDamageTime = gameTime;
 					p->sprite.setColor(Color::Red);
@@ -102,14 +107,16 @@ void Game::EnemyColiisions(Entity *it, float gameTime)
 			}
 			if (p->isHit)
 			{
+				p->sound_enemydamage.play();
 				(it)->health = 0;
 				p->isHit = false;
 			}
 		}
 		if ((it)->name == "apple")
 		{
-			if (p->health <= 90)
+			if (p->health <= 80)
 			{
+				p->sound_bonus.play();
 				p->health += 10;
 				(it)->health = 0;
 			}

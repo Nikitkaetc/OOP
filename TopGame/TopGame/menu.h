@@ -3,7 +3,11 @@
 
 using namespace sf;
 
-static void menu(RenderWindow & window) {
+static void menu(RenderWindow & window, Music& music_menu) {
+	music_menu.openFromFile("music/menu.ogg");
+	music_menu.play();
+	music_menu.setLoop(true);
+
 	Texture menuTexture1, menuTexture2, menuBackground;
 	menuTexture1.loadFromFile("images/111.png");
 	menuTexture2.loadFromFile("images/222.png");
@@ -27,8 +31,8 @@ static void menu(RenderWindow & window) {
 
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			if (menuNum == 1) isMenu = false;
-			if (menuNum == 2) { window.close(); isMenu = false; }
+			if (menuNum == 1) { music_menu.stop(); isMenu = false; }
+			if (menuNum == 2) { music_menu.stop(); window.close(); isMenu = false; }
 		}
 
 		window.draw(menuBg);
@@ -39,7 +43,10 @@ static void menu(RenderWindow & window) {
 	}
 }
 
-static void menuGameOver(RenderWindow & window) {
+static void menuGameOver(RenderWindow & window, Music& music_menu) {
+	music_menu.openFromFile("music/gameover.ogg");
+	music_menu.play();
+	music_menu.setLoop(true);
 	Texture menuTexture1, menuTexture2, menuBackground;
 	menuTexture1.loadFromFile("images/111.png");
 	menuTexture2.loadFromFile("images/222.png");
@@ -65,8 +72,8 @@ static void menuGameOver(RenderWindow & window) {
 
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			if (menuNum == 1) isMenu = false;
-			if (menuNum == 2) { window.close(); isMenu = false; }
+			if (menuNum == 1) { music_menu.stop(); isMenu = false; }
+			if (menuNum == 2) { music_menu.stop(); window.close(); isMenu = false; }
 		}
 
 		window.draw(menuBg);

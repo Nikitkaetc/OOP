@@ -1,6 +1,17 @@
 #include "player.h"
 
 Player::Player(Image &image, String Name, Level &lev, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) {
+
+	sound_buf_hit.loadFromFile("music/hit.ogg");
+	sound_hit.setBuffer(sound_buf_hit);
+	sound_buf_jump.loadFromFile("music/jump.ogg");
+	sound_jump.setBuffer(sound_buf_jump);
+	sound_buf_damage.loadFromFile("music/damage.ogg");
+	sound_damage.setBuffer(sound_buf_damage);
+	sound_buf_bonus.loadFromFile("music/bonus.ogg");
+	sound_bonus.setBuffer(sound_buf_bonus);
+	sound_buf_enemydamage.loadFromFile("music/enemydamage.ogg");
+	sound_enemydamage.setBuffer(sound_buf_enemydamage);
 	state = stay; obj = lev.GetAllObjects(); isRight = true; isHit = false; currentFrame = 0;
 	if (name == "Player1") {
 		sprite.setTextureRect(IntRect(0, 0, w, h));
@@ -91,7 +102,8 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 			}
 			if (obj[i].name == "thorns")
 			{
-				health -= 5; dy = -0.3;
+				sound_damage.play();
+				health -= 5; dy = -0.4;
 			}
 		}
 }
@@ -110,6 +122,7 @@ void Player::update(float time)
 		case hit: dx = 0; break;
 		case jump: dy = -0.6; break;
 		}
+		SoundPlayer(time);
 		x += dx*time;
 		CheckCollisionWithMap(dx, 0);
 		y += dy*time;
@@ -118,4 +131,16 @@ void Player::update(float time)
 	sprite.setPosition(x + w / 2, y + h / 2);
 	if (health <= 0) { life = false; }
 	dy = dy + 0.0015*time;
+}
+
+void Player::SoundPlayer(float time)
+{
+	if (state == jump)
+	{
+		sound_jump.play();
+	}
+	if (state == hit)
+	{
+		sound_hit.play();
+	}
 }

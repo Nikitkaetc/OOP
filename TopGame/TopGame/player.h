@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 #include "entity.h"
 
 using namespace sf;
@@ -14,4 +15,5 @@ public:
 	void Control(float time);
 	void CheckCollisionWithMap(float Dx, float Dy);
 	void update(float time);
+	void SoundPlayer(float time);
 };
