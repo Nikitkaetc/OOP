@@ -2,7 +2,7 @@
 
 Game::Game(RenderWindow& window, int& numberLevel)
 {
-	view.reset(FloatRect(0, 0, 640, 480));
+	view.reset(FloatRect(0, 0, 1366, 768));
 	
 	ChangeLevel(window, lvl, numberLevel);
 
@@ -181,11 +181,14 @@ void Game::Draw(RenderWindow& window)
 
 void Game::SetPlayerCoordinateForView(float x, float y) {
 	float tempX = x; float tempY = y;
-
-	if (x < 320) tempX = 320;
+	/*if (x < 320) tempX = 320;
 	if (x > 3490) tempX = 3490;
 	if (y > 720) tempY = 720;
-	if (y < 240) tempY = 240;
+	if (y < 240) tempY = 240;*/
+	if (x < 683) tempX = 683;
+	if (x > 3127) tempX = 3127;
+	if (y > 576) tempY = 576;
+	if (y < 384) tempY = 384;
 
 	view.setCenter(tempX, tempY);
 }

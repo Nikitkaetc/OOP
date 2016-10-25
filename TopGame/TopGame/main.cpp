@@ -27,7 +27,7 @@ void GameRunning(RenderWindow &window, int &numberLevel, Music& music_menu)
 }
 int main()
 {
-	RenderWindow window(VideoMode(640, 480), "Game");
+	RenderWindow window(VideoMode(1366, 768), "Game", Style::Fullscreen);
 	Music music_menu;
 	menu(window, music_menu);
 	int numberLevel = 1;

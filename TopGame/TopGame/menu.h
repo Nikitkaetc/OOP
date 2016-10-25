@@ -15,8 +15,8 @@ static void menu(RenderWindow & window, Music& music_menu) {
 	Sprite menu1(menuTexture1), menu2(menuTexture2), menuBg(menuBackground);
 	bool isMenu = 1;
 	int menuNum = 0;
-	menu1.setPosition(220, 290);
-	menu2.setPosition(220, 350);
+	menu1.setPosition(603, 454);
+	menu2.setPosition(603, 514);
 	menuBg.setPosition(0, 0);
 
 	while (isMenu)
@@ -26,8 +26,8 @@ static void menu(RenderWindow & window, Music& music_menu) {
 		menuNum = 0;
 		window.clear(Color(129, 181, 221));
 
-		if (IntRect(220, 290, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
-		if (IntRect(220, 350, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
+		if (IntRect(603, 454, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
+		if (IntRect(603, 514, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
 
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
@@ -56,8 +56,8 @@ static void menuGameOver(RenderWindow & window, Music& music_menu) {
 	int menuNum = 0;
 	Vector2f center = window.getView().getCenter();
 	Vector2f size = window.getView().getSize();
-	menu1.setPosition(center.x - size.x / 2 + 220, center.y - size.y / 2 + 290);
-	menu2.setPosition(center.x - size.x / 2 + 220, center.y - size.y / 2 + 350);
+	menu1.setPosition(center.x - size.x / 2 + 603, center.y - size.y / 2 + 454);
+	menu2.setPosition(center.x - size.x / 2 + 603, center.y - size.y / 2 + 514);
 	menuBg.setPosition(center.x - size.x / 2, center.y - size.y / 2);
 
 	while (isMenu)
@@ -67,8 +67,9 @@ static void menuGameOver(RenderWindow & window, Music& music_menu) {
 		menuNum = 0;
 		window.clear(Color(129, 181, 221));
 
-		if (IntRect(220, 290, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
-		if (IntRect(220, 350, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
+		if (IntRect(603, 454, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
+		if (IntRect(603, 514, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
+
 
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
