@@ -1,16 +1,19 @@
 #include "enemy.h"
 
-Enemy::Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) {
+Enemy::Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H)
+{
 	obj = lvl.GetObjects("solid");
 	goingSide = 0;
 	currentFrame = 0;
-	if (name == "easy_enemy") {
+	if (name == "easy_enemy") 
+	{
 		sprite.setTextureRect(IntRect(170, 11, w, h));
 		sprite.setOrigin(w / 2, h / 2);
 		state = right;
 		damage = 10;
 	}
-	if (name == "hard_enemy") {
+	if (name == "hard_enemy") 
+	{
 		sprite.setTextureRect(IntRect(312, 19, -w, h));
 		sprite.setOrigin(w / 2, h / 2);
 		state = left;
@@ -20,16 +23,32 @@ Enemy::Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int
 
 void Enemy::CheckCollisionWithMap(float Dx, float Dy)
 {
-	for (int i = 0; i<obj.size(); i++)
-		if (getRect().intersects(obj[i].rect))
+	for (int i = 0; i < obj.size(); i++)
+	{
+		if (GetRect().intersects(obj[i].rect))
 		{
-			if (Dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
-			if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
-			if (Dx > 0) { x = obj[i].rect.left - w; state = left; goingSide = 1; }
-			if (Dx < 0) { x = obj[i].rect.left + obj[i].rect.width;  state = right; goingSide = 2; }
+			if (Dy > 0)
+			{
+				y = obj[i].rect.top - h;  dy = 0; onGround = true;
+			}
+			if (Dy < 0) 
+			{
+				y = obj[i].rect.top + obj[i].rect.height;   dy = 0;
+			}
+			if (Dx > 0) 
+			{
+				x = obj[i].rect.left - w; state = left; goingSide = 1; 
+			}
+			if (Dx < 0) 
+			{
+				x = obj[i].rect.left + obj[i].rect.width;  state = right; goingSide = 2; 
+			}
 		}
-		else { onGround = false; }
-
+		else 
+		{ 
+			onGround = false;
+		}
+	}
 }
 
 void Enemy::AnimationEasyEnemy(float time)
@@ -103,9 +122,10 @@ void Enemy::AnimationHardEnemy(float time)
 }
 
 
-void Enemy::update(float time)
+void Enemy::Update(float time)
 {
-	if (name == "easy_enemy") {
+	if (name == "easy_enemy")
+	{
 		AnimationEasyEnemy(time);
 		switch (state)
 		{
@@ -119,11 +139,17 @@ void Enemy::update(float time)
 		y += dy*time;
 		CheckCollisionWithMap(0, dy);
 		sprite.setPosition(x + w / 2, y + h / 2);
-		if (health <= 0) { life = false; }
-		if (!onGround) { dy = dy + 0.0015*time; }
-
+		if (health <= 0) 
+		{ 
+			life = false; 
+		}
+		if (!onGround) 
+		{
+			dy = dy + 0.0015*time;
+		}
 	}
-	if (name == "hard_enemy") {
+	if (name == "hard_enemy") 
+	{
 		AnimationHardEnemy(time);
 		switch (state)
 		{
@@ -137,7 +163,13 @@ void Enemy::update(float time)
 		y += dy*time;
 		CheckCollisionWithMap(0, dy);
 		sprite.setPosition(x + w / 2, y + h / 2);
-		if (health <= 0) { life = false; }
-		if (!onGround) { dy = dy + 0.0015*time; }
+		if (health <= 0) 
+		{ 
+			life = false;
+		}
+		if (!onGround)
+		{
+			dy = dy + 0.0015*time;
+		}
 	}
 }

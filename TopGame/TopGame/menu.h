@@ -1,86 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML\Audio.hpp>
 
 using namespace sf;
 
-static void menu(RenderWindow & window, Music& music_menu) {
-	music_menu.openFromFile("music/menu.ogg");
-	music_menu.play();
-	music_menu.setLoop(true);
+extern void Menu(RenderWindow & window, Music& music_menu);
 
-	Texture menuTexture1, menuTexture2, menuBackground;
-	menuTexture1.loadFromFile("images/111.png");
-	menuTexture2.loadFromFile("images/222.png");
-	menuBackground.loadFromFile("images/menu.jpg");
-	Sprite menu1(menuTexture1), menu2(menuTexture2), menuBg(menuBackground);
-	bool isMenu = 1;
-	int menuNum = 0;
-	menu1.setPosition(603, 454);
-	menu2.setPosition(603, 514);
-	menuBg.setPosition(0, 0);
+extern void MenuGameOver(RenderWindow & window, Music& music_menu);
 
-	while (isMenu)
-	{
-		menu1.setColor(Color::White);
-		menu2.setColor(Color::White);
-		menuNum = 0;
-		window.clear(Color(129, 181, 221));
+void Draw(RenderWindow & window, Sprite & menuBg, Sprite & menu1, Sprite & menu2);
 
-		if (IntRect(603, 454, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
-		if (IntRect(603, 514, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
-
-		if (Mouse::isButtonPressed(Mouse::Left))
-		{
-			if (menuNum == 1) { music_menu.stop(); isMenu = false; }
-			if (menuNum == 2) { music_menu.stop(); window.close(); isMenu = false; }
-		}
-
-		window.draw(menuBg);
-		window.draw(menu1);
-		window.draw(menu2);
-
-		window.display();
-	}
-}
-
-static void menuGameOver(RenderWindow & window, Music& music_menu) {
-	music_menu.openFromFile("music/gameover.ogg");
-	music_menu.play();
-	music_menu.setLoop(true);
-	Texture menuTexture1, menuTexture2, menuBackground;
-	menuTexture1.loadFromFile("images/111.png");
-	menuTexture2.loadFromFile("images/222.png");
-	menuBackground.loadFromFile("images/gameOver.jpg");
-	Sprite menu1(menuTexture1), menu2(menuTexture2), menuBg(menuBackground);
-	bool isMenu = 1;
-	int menuNum = 0;
-	Vector2f center = window.getView().getCenter();
-	Vector2f size = window.getView().getSize();
-	menu1.setPosition(center.x - size.x / 2 + 603, center.y - size.y / 2 + 454);
-	menu2.setPosition(center.x - size.x / 2 + 603, center.y - size.y / 2 + 514);
-	menuBg.setPosition(center.x - size.x / 2, center.y - size.y / 2);
-
-	while (isMenu)
-	{
-		menu1.setColor(Color::White);
-		menu2.setColor(Color::White);
-		menuNum = 0;
-		window.clear(Color(129, 181, 221));
-
-		if (IntRect(603, 454, 160, 48).contains(Mouse::getPosition(window))) { menu1.setColor(Color::Red); menuNum = 1; }
-		if (IntRect(603, 514, 160, 48).contains(Mouse::getPosition(window))) { menu2.setColor(Color::Red); menuNum = 2; }
-
-
-		if (Mouse::isButtonPressed(Mouse::Left))
-		{
-			if (menuNum == 1) { music_menu.stop(); isMenu = false; }
-			if (menuNum == 2) { music_menu.stop(); window.close(); isMenu = false; }
-		}
-
-		window.draw(menuBg);
-		window.draw(menu1);
-		window.draw(menu2);
-
-		window.display();
-	}
-}
+void IsMenu(RenderWindow & window, Sprite & menuBg, Sprite & menu1, Sprite & menu2);

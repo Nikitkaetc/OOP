@@ -38,7 +38,10 @@ public:
 	int levelNumber;
 
 private:
-	int width, height, tileWidth, tileHeight;
+	int width;
+	int height;
+	int tileWidth;
+	int tileHeight;
 	int firstTileID;
 	sf::Rect<float> drawingBounds;
 	sf::Texture tilesetImage;

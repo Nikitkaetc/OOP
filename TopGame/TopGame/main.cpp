@@ -13,8 +13,8 @@ using namespace std;
 bool StartGame(RenderWindow &window, int &numberLevel, Music& music_menu)
 {
 
-	Game game(window, numberLevel);
-	return game.DoGameLoop(window, numberLevel, music_menu);
+	Game Game(window, numberLevel);
+	return Game.DoGameLoop(window, numberLevel, music_menu);
 	
 }
 
@@ -29,8 +29,16 @@ int main()
 {
 	RenderWindow window(VideoMode(1366, 768), "Game", Style::Fullscreen);
 	Music music_menu;
-	menu(window, music_menu);
+	Menu(window, music_menu);
 	int numberLevel = 1;
-	GameRunning(window, numberLevel, music_menu);
+	try
+	{
+		GameRunning(window, numberLevel, music_menu);
+	}
+	catch (const invalid_argument &err)
+	{
+		cout << err.what() << endl;
+		return 1;
+	}
 	return 0;
 }

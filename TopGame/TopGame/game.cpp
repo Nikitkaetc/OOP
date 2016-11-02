@@ -41,7 +41,7 @@ Game::Game(RenderWindow& window, int& numberLevel)
 	std::vector<Object> apple = lvl.GetObjects("heal");
 	for (int i = 0; i < apple.size(); i++)
 	{
-		entities.push_back(new ObjectsMap(appleImage, "apple", lvl, apple[i].rect.left, apple[i].rect.top, 32, 32));
+entities.push_back(new ObjectsMap(appleImage, "apple", lvl, apple[i].rect.left, apple[i].rect.top, 32, 32));
 	}
 }
 
@@ -54,7 +54,7 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
 	float gameTime = 0;
 	while (window.isOpen())
 	{
-		float time = clock.getElapsedTime().asMicroseconds();
+		auto time = clock.getElapsedTime().asMicroseconds();
 		gameTime += clock.getElapsedTime().asSeconds();
 		clock.restart();
 		time = time / 800;
@@ -63,19 +63,34 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			//if (p->isShot == true) { p->isShot = false; entities.push_back(new Bullet(BulletImage, "Bullet", lvl, p->x, p->y, 31, 7, p->state)); }
+			if (p->isShot == true)
+			{
+				p->isShot = false;
+				entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 31, 7, p->state));
+			}
 		}
-		if (p->x > 3790) { lvl.levelNumber++; numberLevel++; return true; }
-		if (p->y > 900) { p->life = false; }
-		if (p->life == false) { menuGameOver(window, music_menu); return true;
+		if (p->x > 3790)
+		{ 
+			lvl.levelNumber++; numberLevel++; return true;
+		}
+		if (p->y > 900) 
+		{
+			p->life = false;
+		}
+		if (p->life == false) 
+		{
+			MenuGameOver(window, music_menu); return true;
 		}
 		if (numberLevel == 3)
 		{
 			numberLevel = 1;
-			menuGameOver(window, music_menu);
+			MenuGameOver(window, music_menu);
 			return true;
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Escape)) { return false; }
+		if (Keyboard::isKeyPressed(Keyboard::Escape)) 
+		{
+			return false;
+		}
 
 		Update(time, gameTime);
 		Draw(window);
@@ -85,16 +100,26 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
 }
 
 void Game::ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel) {
-	if (numberLevel == 1) { lvl.LoadFromFile("map/map1.tmx"); }
-	if (numberLevel == 2) { lvl.LoadFromFile("map/map2.tmx"); }
-	if (numberLevel == 3) { lvl.LoadFromFile("map/map2.tmx"); }
+	if (numberLevel == 1) 
+	{
+		lvl.LoadFromFile("map/map1.tmx"); 
+	}
+	if (numberLevel == 2)
+	{ 
+		lvl.LoadFromFile("map/map2.tmx");
+	}
+	if (numberLevel == 3) 
+	{ 
+		lvl.LoadFromFile("map/map2.tmx");
+	}
 }
 
 void Game::EnemyColiisions(Entity *it, float gameTime)
 {
-	if (it->getRect().intersects(p->getRect()))
+	if (it->GetRect().intersects(p->GetRect()))
 	{
-		if (((it)->name == "easy_enemy") || ((it)->name == "hard_enemy")) {
+		if (((it)->name == "easy_enemy") || ((it)->name == "hard_enemy"))
+		{
 			if (gameTime > p->lastDamageTime + 1)
 			{
 				if ((!p->isHit) && ((it)->state == (it)->hit))
@@ -124,28 +149,36 @@ void Game::EnemyColiisions(Entity *it, float gameTime)
 	}
 }
 
-void Game::Collisions(list<Entity*>& entities, const float& time, Player* p, float gameTime)
+void Game::Collisions(list<Entity*> & entities, const float& time, Player* p, float gameTime)
 {
-	for (auto it = entities.begin(); it != entities.end(); it++)
+	if (!p)
 	{
-		EnemyColiisions(*it, gameTime);
-		if (((*it)->x < p->x + 30) && ((*it)->x > p->x - 30) && ((*it)->y < p->y + 7) && ((*it)->y > p->y - 7))
+		throw(invalid_argument("Player = nullptr"));
+	}
+	else
+	{
+		for (auto &entity: entities)
 		{
-			(*it)->state = (*it)->hit;
-		}
-		else if (((*it)->x < p->x) && ((*it)->state == (*it)->hit))
-		{
-			(*it)->state = (*it)->right;
-			(*it)->goingSide = 2;
-		}
-		else if (((*it)->x > p->x) && ((*it)->state == (*it)->hit))
-		{
-			(*it)->state = (*it)->left;
-			(*it)->goingSide = 1;
-		}
-		if (gameTime > p->lastDamageTime + 0.5)
-		{
-			p->sprite.setColor(Color::White);
+			EnemyColiisions(entity, gameTime);
+			if ((entity->x < p->x + 30) && (entity->x > p->x - 30) && (entity->y < p->y + 7) && (entity->y > p->y - 7))
+			{
+				entity->state = entity->hit;
+			}
+
+			else if ((entity->x < p->x) && (entity->state == entity->hit))
+			{
+				entity->state = entity->right;
+				entity->goingSide = 2;
+			}
+			else if ((entity->x > p->x) && (entity->state == entity->hit))
+			{
+				entity->state = entity->left;
+				entity->goingSide = 1;
+			}
+			if (gameTime > p->lastDamageTime + 0.5)
+			{
+				p->sprite.setColor(Color::White);
+			}
 		}
 	}
 }
@@ -153,13 +186,16 @@ void Game::Collisions(list<Entity*>& entities, const float& time, Player* p, flo
 void Game::Update(float time, float gameTime)
 {
 	lifeBarPlayer.Update(p->health);
-	p->update(time);
+	p->Update(time);
 	SetPlayerCoordinateForView(p->x, p->y);
 	for (auto it = entities.begin(); it != entities.end();)
 	{
 		Entity *b = *it;
-		b->update(time);
-		if (b->life == false) { it = entities.erase(it); delete b; }
+		b->Update(time);
+		if (b->life == false)
+		{
+			it = entities.erase(it); delete b;
+		}
 		else it++;
 	}
 	Collisions(entities, time, p, gameTime);
@@ -179,12 +215,9 @@ void Game::Draw(RenderWindow& window)
 	window.display();
 }
 
-void Game::SetPlayerCoordinateForView(float x, float y) {
+void Game::SetPlayerCoordinateForView(float x, float y) 
+{
 	float tempX = x; float tempY = y;
-	/*if (x < 320) tempX = 320;
-	if (x > 3490) tempX = 3490;
-	if (y > 720) tempY = 720;
-	if (y < 240) tempY = 240;*/
 	if (x < 683) tempX = 683;
 	if (x > 3127) tempX = 3127;
 	if (y > 576) tempY = 576;

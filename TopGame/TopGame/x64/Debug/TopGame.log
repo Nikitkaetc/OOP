@@ -1,3 +1,0 @@
-﻿  game.cpp
-d:\иип\topgame\topgame\game.cpp(57): warning C4244: 'initializing': conversion from 'sf::Int64' to 'float', possible loss of data
-  TopGame.vcxproj -> D:\ИиП\TopGame\x64\Debug\TopGame.exe

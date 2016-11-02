@@ -3,16 +3,20 @@
 
 using namespace sf;
 
-class lifeBar
+class LifeBar
 {
-public:
-	Image image, imageAva;
-	Texture t, avaText;
-	Sprite s, avaSprite;
+private:
+	Image image;
+	Image imageAva;
+	Texture t;
+	Texture avaText;
+	Sprite s;
+	Sprite avaSprite;
 	int max;
 	RectangleShape bar;
+public:
+	LifeBar();
 
-	lifeBar();
 	void Update(int k);
 	void Draw(RenderWindow &window);
 
