@@ -10,6 +10,7 @@ class Player :public Entity
 public:
 	float lastDamageTime;
 	bool isShot;
+	bool oneShot;
 	
 	Player(Image &image, String Name, Level &lvl, float X, float Y, int W, int H);
 

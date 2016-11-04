@@ -2,8 +2,10 @@
 
 Player::Player(Image &image, String Name, Level &lev, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) 
 {
-	goingSide = 1;
+	goingSide = 2;
+	currentShot = 0;
 	isShot = false;
+	oneShot = true;
 	sound_buf_hit.loadFromFile("music/hit.ogg");
 	sound_hit.setBuffer(sound_buf_hit);
 	sound_buf_jump.loadFromFile("music/jump.ogg");
@@ -75,36 +77,73 @@ void Player::Animation(float time)
 			sprite.setTextureRect(IntRect(151 + w, 8, -w, h));
 		}
 	}
+	if (state == bulletright)
+	{
+		currentShot += 0.003*time;
+		if (currentShot > 3) 
+		{
+			currentShot -= 3; isShot = false;
+			oneShot = true;
+		}
+		sprite.setTextureRect(IntRect(302 + (43 * int(currentShot)), 80, 43, h));
+	}
+	if (state == bulletleft)
+	{
+		currentShot += 0.003*time;
+		if (currentShot > 3)
+		{
+			currentShot -= 3; isShot = false;
+			oneShot = true;
+		}
+		sprite.setTextureRect(IntRect(345 + (43 * int(currentShot)), 80, -43, h));
+	}
 }
 void Player::Control(float time)
 {
-	state = stay;
-	if (Keyboard::isKeyPressed(Keyboard::A))
+	if (!isShot)
 	{
-		isRight = false;
-		state = left; speed = 0.1; isHit = false;
+		state = stay;
+		if (Keyboard::isKeyPressed(Keyboard::A))
+		{
+			isRight = false;
+			state = left; speed = 0.1; isHit = false;
+			goingSide = 1;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::D))
+		{
+			isRight = true;
+			state = right; speed = 0.1; isHit = false;
+			goingSide = 2;
+		}
+		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround))
+		{
+			state = jump; isHit = false; onGround = false;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			state = hit;
+			isHit = true;
+		}
+		if (state == stay)
+		{
+			isHit = false;
+		}
 	}
-	if (Keyboard::isKeyPressed(Keyboard::D)) 
-	{
-		isRight = true;
-		state = right; speed = 0.1; isHit = false;
-	}
-	if (Keyboard::isKeyPressed(Keyboard::RShift))
-	{
-		isShot = true;
-	}
-	if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround)) 
-	{
-		state = jump; isHit = false; onGround = false;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Space)) 
-	{
-		state = hit;
-		isHit = true;
-	}
-	if (state == stay) {
-		isHit = false;
-	}
+		if ((Keyboard::isKeyPressed(Keyboard::RShift))&&(oneShot == true) && (isShot == false))
+		{
+			if (goingSide == 1)
+			{
+				state = bulletleft;
+				isShot = true;
+				oneShot = false;
+			}
+			else if (goingSide == 2)
+			{
+				state = bulletright;
+				isShot = true;
+				oneShot = false;
+			}
+		}
 }
 
 
@@ -125,10 +164,12 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 				{ 
 					y = obj[i].rect.top + obj[i].rect.height;   dy = 0; 
 				}
-				if (Dx > 0) {
+				if (Dx > 0) 
+				{
 					x = obj[i].rect.left - w; 
 				}
-				if (Dx < 0) {
+				if (Dx < 0) 
+				{
 					x = obj[i].rect.left + obj[i].rect.width; 
 				}
 			}
@@ -154,6 +195,8 @@ void Player::Update(float time)
 		case stay: dx = 0; break;
 		case hit: dx = 0; break;
 		case jump: dy = -0.6; break;
+		case bulletleft: dx = 0; break;
+		case bulletright: dx = 0; break;
 		}
 		SoundPlayer(time);
 		x += dx*time;

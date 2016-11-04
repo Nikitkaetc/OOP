@@ -63,10 +63,10 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if (p->isShot == true)
+			if ((!p->oneShot) && (p->isShot))
 			{
-				p->isShot = false;
-				entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 31, 7, p->state));
+				p->oneShot = true;
+				entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 32, 30, p->state));
 			}
 		}
 		if (p->x > 3790)
@@ -178,6 +178,17 @@ void Game::Collisions(list<Entity*> & entities, const float& time, Player* p, fl
 			if (gameTime > p->lastDamageTime + 0.5)
 			{
 				p->sprite.setColor(Color::White);
+			}
+			for (auto &entity2 : entities)
+			{
+				if ((entity->name == "Bullet") && (((entity2)->name == "easy_enemy") || ((entity2)->name == "hard_enemy")))
+				{
+					if (entity->GetRect().intersects(entity2->GetRect()))
+					{
+						entity->dead = true;
+						entity2->life = false;
+					}
+				}
 			}
 		}
 	}

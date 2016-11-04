@@ -17,6 +17,7 @@ public:
 	float y;
 	float speed;
 	float currentFrame;
+	float currentShot;
 	int w;
 	int h;
 	int health;
@@ -26,9 +27,10 @@ public:
 	bool isHit;
 	bool isRight;
 	bool onGround;
+	bool dead;
 	enum state
 	{
-		right, left, stay, hit, jump
+		right, left, stay, hit, jump, bulletleft, bulletright
 	};
 	state state;
 	Texture texture;
