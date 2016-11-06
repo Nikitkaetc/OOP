@@ -26,7 +26,7 @@ void LifeBar::Update(int k)
 	{
 		if (k < max)
 		{
-			bar.setSize(Vector2f((max - k) * 100 / max, 12));
+			bar.setSize(Vector2f((max - k) * 100.f / max, 12.f));
 		}
 	}
 }

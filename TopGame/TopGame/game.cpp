@@ -6,8 +6,6 @@ Game::Game(RenderWindow& window, int& numberLevel)
 	
 	ChangeLevel(window, lvl, numberLevel);
 
-	
-
 	heroImage.loadFromFile("images/IronMan.png");
 	heroImage.createMaskFromColor(Color(186, 254, 202));
 
@@ -43,60 +41,94 @@ Game::Game(RenderWindow& window, int& numberLevel)
 	{
 entities.push_back(new ObjectsMap(appleImage, "apple", lvl, apple[i].rect.left, apple[i].rect.top, 32, 32));
 	}
+	isMenu = true;
 }
 
-bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music& music_menu)
+bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music & music_menu, GameMode & gameMode)
 {
-	music_menu.openFromFile("music/game.ogg");
-	music_menu.setVolume(10);
-	music_menu.play();
-	music_menu.setLoop(true);
 	float gameTime = 0;
-	while (window.isOpen())
-	{
-		auto time = clock.getElapsedTime().asMicroseconds();
-		gameTime += clock.getElapsedTime().asSeconds();
-		clock.restart();
-		time = time / 800;
-		Event event;
-		while (window.pollEvent(event))
+		while (window.isOpen())
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-			if ((!p->oneShot) && (p->isShot))
+			auto time = clock.getElapsedTime().asMicroseconds();
+			gameTime += clock.getElapsedTime().asSeconds();
+			clock.restart();
+			time = time / 800;
+			switch (gameMode)
 			{
-				p->oneShot = true;
-				entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 32, 30, p->state));
+			case GameMode::Play:
+				Event event;
+				while (window.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						window.close();
+					if ((!p->oneShot) && (p->isShot))
+					{
+						p->oneShot = true;
+						entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 32, 30, p->state));
+					}
+				}
+				if (p->x > 3790)
+				{
+					lvl.levelNumber++; numberLevel++; return true;
+				}
+				if (p->y > 900)
+				{
+					p->life = false;
+				}
+				if (p->life == false)
+				{
+					gameMode = GameMode::GameOver;
+					isNeedRestartMusic = true;
+					return true;
+				}
+				if (numberLevel == 3)
+				{
+					numberLevel = 1;
+					gameMode = GameMode::GameOver;
+					isNeedRestartMusic = true;
+					return true;
+				}
+				if (Keyboard::isKeyPressed(Keyboard::Escape))
+				{
+					return false;
+				}
+
+				Update(time, gameTime);
+				Draw(window,gameMode);
+				if (isNeedRestartMusic)
+				{
+					music_menu.openFromFile("music/game.ogg");
+					music_menu.setVolume(10);
+					music_menu.play();
+					music_menu.setLoop(true);
+					isNeedRestartMusic = false;
+				}
+				break;
+			case GameMode::Menu:
+				if (isNeedRestartMusic)
+				{
+					music_menu.openFromFile("music/menu.ogg");
+					music_menu.setVolume(10);
+					music_menu.play();
+					music_menu.setLoop(true);
+					isNeedRestartMusic = false;
+				}
+				Draw(window,gameMode);
+				break;
+			case GameMode::GameOver:
+				if (isNeedRestartMusic)
+				{
+					music_menu.openFromFile("music/gameover.ogg");
+					music_menu.setVolume(10);
+					music_menu.play();
+					music_menu.setLoop(true);
+					isNeedRestartMusic = false;
+				}
+				Draw(window, gameMode);
+				break;
 			}
 		}
-		if (p->x > 3790)
-		{ 
-			lvl.levelNumber++; numberLevel++; return true;
-		}
-		if (p->y > 900) 
-		{
-			p->life = false;
-		}
-		if (p->life == false) 
-		{
-			MenuGameOver(window, music_menu); return true;
-		}
-		if (numberLevel == 3)
-		{
-			numberLevel = 1;
-			MenuGameOver(window, music_menu);
-			return true;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Escape)) 
-		{
-			return false;
-		}
-
-		Update(time, gameTime);
-		Draw(window);
-	}
-	return true;
-
+		return true;
 }
 
 void Game::ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel) {
@@ -114,18 +146,18 @@ void Game::ChangeLevel(RenderWindow& window, Level &lvl, int &numberLevel) {
 	}
 }
 
-void Game::EnemyColiisions(Entity *it, float gameTime)
+void Game::EnemyColiisions(Entity & it, float gameTime)
 {
-	if (it->GetRect().intersects(p->GetRect()))
+	if (it.GetRect().intersects(p->GetRect()))
 	{
-		if (((it)->name == "easy_enemy") || ((it)->name == "hard_enemy"))
+		if ((it.name == "easy_enemy") || (it.name == "hard_enemy"))
 		{
 			if (gameTime > p->lastDamageTime + 1)
 			{
-				if ((!p->isHit) && ((it)->state == (it)->hit))
+				if ((!p->isHit) && (it.state == it.hit))
 				{
 					p->sound_damage.play();
-					p->health -= (it)->damage;
+					p->health -= it.damage;
 					p->lastDamageTime = gameTime;
 					p->sprite.setColor(Color::Red);
 				}
@@ -133,17 +165,17 @@ void Game::EnemyColiisions(Entity *it, float gameTime)
 			if (p->isHit)
 			{
 				p->sound_enemydamage.play();
-				(it)->health = 0;
+				it.health = 0;
 				p->isHit = false;
 			}
 		}
-		if ((it)->name == "apple")
+		if (it.name == "apple")
 		{
 			if (p->health <= 80)
 			{
 				p->sound_bonus.play();
 				p->health += 10;
-				(it)->health = 0;
+				it.health = 0;
 			}
 		}
 	}
@@ -159,7 +191,7 @@ void Game::Collisions(list<Entity*> & entities, const float& time, Player* p, fl
 	{
 		for (auto &entity: entities)
 		{
-			EnemyColiisions(entity, gameTime);
+			EnemyColiisions(*entity, gameTime);
 			if ((entity->x < p->x + 30) && (entity->x > p->x - 30) && (entity->y < p->y + 7) && (entity->y > p->y - 7))
 			{
 				entity->state = entity->hit;
@@ -212,17 +244,37 @@ void Game::Update(float time, float gameTime)
 	Collisions(entities, time, p, gameTime);
 }
 
-void Game::Draw(RenderWindow& window)
+void Game::Draw(RenderWindow& window, GameMode & gameMode)
 {
-	window.setView(view);
-	window.clear(Color(77, 83, 140));
-	lvl.Draw(window);
-	for (auto it = entities.begin(); it != entities.end(); it++)
-	{
-		window.draw((*it)->sprite);
+	switch (gameMode)
+	{case GameMode::Play:
+		window.setView(view);
+		window.clear(Color(77, 83, 140));
+		lvl.Draw(window);
+		for (auto it = entities.begin(); it != entities.end(); it++)
+		{
+			window.draw((*it)->sprite);
+		}
+		window.draw(p->sprite);
+		lifeBarPlayer.Draw(window);
+		break;
+	case GameMode::Menu:
+		menuGame.Draw(window, isMenu);
+		if (isMenu == false)
+		{
+			gameMode = GameMode::Play;
+			isNeedRestartMusic = true;
+		}
+		break;
+	case GameMode::GameOver:
+		menuGame.DrawGameOver(window, isMenu);
+		if (isMenu == false)
+		{
+			gameMode = GameMode::Play;
+			isNeedRestartMusic = true;
+		}
+		break;
 	}
-	window.draw(p->sprite);
-	lifeBarPlayer.Draw(window);
 	window.display();
 }
 

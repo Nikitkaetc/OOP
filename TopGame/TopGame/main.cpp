@@ -10,30 +10,31 @@
 using namespace sf;
 using namespace std;
 
-bool StartGame(RenderWindow &window, int &numberLevel, Music& music_menu)
+bool StartGame(RenderWindow &window, int &numberLevel, Music & music_menu, GameMode & gameMode)
 {
 
 	Game Game(window, numberLevel);
-	return Game.DoGameLoop(window, numberLevel, music_menu);
+	return Game.DoGameLoop(window, numberLevel, music_menu, gameMode);
 	
 }
 
-void GameRunning(RenderWindow &window, int &numberLevel, Music& music_menu)
+void GameRunning(RenderWindow &window, int &numberLevel, Music & music_menu, GameMode & gameMode)
 {
-	if (StartGame(window, numberLevel, music_menu))
+	if (StartGame(window, numberLevel, music_menu, gameMode))
 	{ 
-		GameRunning(window, numberLevel, music_menu);
+		GameRunning(window, numberLevel, music_menu, gameMode);
 	}
 }
+
 int main()
 {
 	RenderWindow window(VideoMode(1366, 768), "Game", Style::Fullscreen);
-	Music music_menu;
-	Menu(window, music_menu);
 	int numberLevel = 1;
+	Music music_menu;
+	GameMode gameMode = GameMode::Menu;
 	try
 	{
-		GameRunning(window, numberLevel, music_menu);
+		GameRunning(window, numberLevel, music_menu, gameMode);
 	}
 	catch (const invalid_argument &err)
 	{

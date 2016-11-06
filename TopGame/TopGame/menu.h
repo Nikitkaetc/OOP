@@ -1,13 +1,25 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace sf;
 
-extern void Menu(RenderWindow & window, Music& music_menu);
+class MenuGame
+{
+private:
+	Texture menuTexture1;
+	Texture menuTexture2;
+	Texture menuBackground;
+	Texture menuGameOver;
+	Sprite menu1;
+	Sprite menu2;
+	Sprite menuBg;
+	Sprite menuGO;
 
-extern void MenuGameOver(RenderWindow & window, Music& music_menu);
+	int menuNum;
 
-void Draw(RenderWindow & window, Sprite & menuBg, Sprite & menu1, Sprite & menu2);
-
-void IsMenu(RenderWindow & window, Sprite & menuBg, Sprite & menu1, Sprite & menu2);
+public:
+	MenuGame();
+	void Draw(RenderWindow & window, bool & isMenu);
+	void DrawGameOver(RenderWindow & window, bool & isMenu);
+};
