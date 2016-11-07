@@ -93,7 +93,7 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music & music_menu
 					return false;
 				}
 
-				Update(time, gameTime);
+				Update((float)time, gameTime);
 				Draw(window,gameMode);
 				if (isNeedRestartMusic)
 				{

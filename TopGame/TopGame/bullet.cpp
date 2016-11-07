@@ -38,14 +38,14 @@ void Bullet::Animation(float time)
 {
 	if (direction == 5)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 4) currentFrame -= 4;
 		sprite.setTextureRect(IntRect(32 + (32 * int(currentFrame)), 97, -w, h));
 		goingSide = 2;
 	}
 	else if (direction == 6)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 4) currentFrame -= 4;
 		sprite.setTextureRect(IntRect(32 * int(currentFrame), 97, w, h));
 		goingSide = 1;
@@ -53,7 +53,7 @@ void Bullet::Animation(float time)
 	if (dead == true)
 	{
 		speed = 0;
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 3)
 		{
 			currentFrame -= 3;

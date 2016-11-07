@@ -9,7 +9,7 @@ int Object::GetPropertyInt(std::string name)
 
 float Object::GetPropertyFloat(std::string name)
 {
-	return strtod(properties[name].c_str(), nullptr);
+	return (float)strtod(properties[name].c_str(), nullptr);
 }
 
 std::string Object::GetPropertyString(std::string name)
@@ -89,8 +89,8 @@ bool Level::LoadFromFile(std::string filename)
 
 		if (layerElement->Attribute("opacity") != nullptr)
 		{
-			float opacity = strtod(layerElement->Attribute("opacity"), nullptr);
-			layer.opacity = 255 * opacity;
+			float opacity = (float)strtod(layerElement->Attribute("opacity"), nullptr);
+			layer.opacity = (int)(255.f * opacity);
 		}
 		else
 		{
@@ -127,7 +127,7 @@ bool Level::LoadFromFile(std::string filename)
 				sf::Sprite sprite;
 				sprite.setTexture(tilesetImage);
 				sprite.setTextureRect(subRects[subRectToUse]);
-				sprite.setPosition(x * tileWidth, y * tileHeight);
+				sprite.setPosition((float)(x * tileWidth), (float)(y * tileHeight));
 				sprite.setColor(sf::Color(255, 255, 255, layer.opacity));
 
 				layer.tiles.push_back(sprite);
@@ -180,7 +180,7 @@ bool Level::LoadFromFile(std::string filename)
 				sf::Sprite sprite;
 				sprite.setTexture(tilesetImage);
 				sprite.setTextureRect(sf::Rect<int>(0, 0, 0, 0));
-				sprite.setPosition(x, y);
+				sprite.setPosition((float)x, (float)y);
 
 				if (objectElement->Attribute("width") != nullptr)
 				{
@@ -200,10 +200,10 @@ bool Level::LoadFromFile(std::string filename)
 				object.sprite = sprite;
 
 				sf::Rect <float> objectRect;
-				objectRect.top = y;
-				objectRect.left = x;
-				objectRect.height = height;
-				objectRect.width = width;
+				objectRect.top = (float)y;
+				objectRect.left = (float)x;
+				objectRect.height = (float)height;
+				objectRect.width = (float)width;
 				object.rect = objectRect;
 
 				TiXmlElement *properties;
@@ -247,6 +247,7 @@ Object Level::GetObject(std::string name)
 	for (int i = 0; i < objects.size(); i++)
 		if (objects[i].name == name)
 			return objects[i];
+	return objects[0];
 }
 
 std::vector<Object> Level::GetObjects(std::string name)

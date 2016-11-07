@@ -6,7 +6,7 @@ ObjectsMap::ObjectsMap(Image &image, String Name, Level &lvl, float X, float Y, 
 	if (name == "apple")
 	{
 		sprite.setTextureRect(IntRect(32, 128, w, h));
-		sprite.setOrigin(w / 2, h / 2);
+		sprite.setOrigin((float)w / 2.f, (float)h / 2.f);
 	}
 }
 

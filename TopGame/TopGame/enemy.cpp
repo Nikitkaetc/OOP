@@ -8,14 +8,14 @@ Enemy::Enemy(Image &image, String Name, Level &lvl, float X, float Y, int W, int
 	if (name == "easy_enemy") 
 	{
 		sprite.setTextureRect(IntRect(170, 11, w, h));
-		sprite.setOrigin(w / 2, h / 2);
+		sprite.setOrigin((float)w / 2.f, (float)h / 2.f);
 		state = right;
 		damage = 10;
 	}
 	if (name == "hard_enemy") 
 	{
 		sprite.setTextureRect(IntRect(312, 19, -w, h));
-		sprite.setOrigin(w / 2, h / 2);
+		sprite.setOrigin((float)w / 2.f, (float)h / 2.f);
 		state = left;
 		damage = 20;
 	}
@@ -55,13 +55,13 @@ void Enemy::AnimationEasyEnemy(float time)
 {
 	if (state == right)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 4) currentFrame -= 4;
 		sprite.setTextureRect(IntRect(170 + (39 * int(currentFrame)), 11, w, h));
 	}
 	if (state == left)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 4) currentFrame -= 4;
 		sprite.setTextureRect(IntRect(209 + (39 * int(currentFrame)), 11, -w, h));
 	}
@@ -69,7 +69,7 @@ void Enemy::AnimationEasyEnemy(float time)
 	{
 		if (goingSide == 1)
 		{
-			currentFrame += 0.003*time;
+			currentFrame += 0.003f*time;
 			if (currentFrame > 2) currentFrame -= 2;
 			{
 				sprite.setTextureRect(IntRect(56 + (49 * int(currentFrame)), 74, -49, h));
@@ -77,7 +77,7 @@ void Enemy::AnimationEasyEnemy(float time)
 		}
 		else if (goingSide == 2)
 		{
-			currentFrame += 0.003*time;
+			currentFrame += 0.003f*time;
 			if (currentFrame > 2) currentFrame -= 2;
 			{
 				sprite.setTextureRect(IntRect(7 + (49 * int(currentFrame)), 74, 49, h));
@@ -90,13 +90,13 @@ void Enemy::AnimationHardEnemy(float time)
 {
 	if (state == left)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 3) currentFrame -= 3;
 		sprite.setTextureRect(IntRect(356 + (44 * int(currentFrame)), 19, -w, h));
 	}
 	if (state == right)
 	{
-		currentFrame += 0.005*time;
+		currentFrame += 0.005f*time;
 		if (currentFrame > 3) currentFrame -= 3;
 		sprite.setTextureRect(IntRect(312 + (44 * int(currentFrame)), 19, w, h));
 	}
@@ -104,7 +104,7 @@ void Enemy::AnimationHardEnemy(float time)
 	{
 		if (goingSide == 1)
 		{
-			currentFrame += 0.003*time;
+			currentFrame += 0.003f*time;
 			if (currentFrame > 2) currentFrame -= 2;
 			{
 				sprite.setTextureRect(IntRect(122 + (54 * int(currentFrame)), 94, -54, h));
@@ -112,7 +112,7 @@ void Enemy::AnimationHardEnemy(float time)
 		}
 		else if (goingSide == 2)
 		{
-			currentFrame += 0.003*time;
+			currentFrame += 0.003f*time;
 			if (currentFrame > 2) currentFrame -= 2;
 			{
 				sprite.setTextureRect(IntRect(68 + (54 * int(currentFrame)), 94, 54, h));
@@ -129,8 +129,8 @@ void Enemy::Update(float time)
 		AnimationEasyEnemy(time);
 		switch (state)
 		{
-		case left: dx = -0.1; break;
-		case right: dx = 0.1; break;
+		case left: dx = -0.1f; break;
+		case right: dx = 0.1f; break;
 		case hit:  dx = 0; break;
 		case stay: break;
 		}
@@ -145,7 +145,7 @@ void Enemy::Update(float time)
 		}
 		if (!onGround) 
 		{
-			dy = dy + 0.0015*time;
+			dy = dy + 0.0015f*time;
 		}
 	}
 	if (name == "hard_enemy") 
@@ -153,8 +153,8 @@ void Enemy::Update(float time)
 		AnimationHardEnemy(time);
 		switch (state)
 		{
-		case left: dx = -0.1; break;
-		case right: dx = 0.1; break;
+		case left: dx = -0.1f; break;
+		case right: dx = 0.1f; break;
 		case hit:  dx = 0; break;
 		case stay: break;
 		}
@@ -169,7 +169,7 @@ void Enemy::Update(float time)
 		}
 		if (!onGround)
 		{
-			dy = dy + 0.0015*time;
+			dy = dy + 0.0015f*time;
 		}
 	}
 }

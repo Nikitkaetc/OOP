@@ -31,7 +31,7 @@ void Player::Animation(float time)
 		isRight = false;
 		if (!Keyboard::isKeyPressed(Keyboard::W))
 		{
-			currentFrame += 0.005*time;
+			currentFrame += 0.005f*time;
 			if (currentFrame > 4) currentFrame -= 4;
 			sprite.setTextureRect(IntRect(191 + (40 * int(currentFrame)), 8, -w, h));
 		}
@@ -45,7 +45,7 @@ void Player::Animation(float time)
 		isRight = true;
 		if (!Keyboard::isKeyPressed(Keyboard::W))
 		{
-			currentFrame += 0.005*time;
+			currentFrame += 0.005f*time;
 			if (currentFrame > 4) currentFrame -= 4;
 			sprite.setTextureRect(IntRect(151 + (40 * int(currentFrame)), 8, w, h));
 		}
@@ -79,7 +79,7 @@ void Player::Animation(float time)
 	}
 	if (state == bulletright)
 	{
-		currentShot += 0.003*time;
+		currentShot += 0.003f*time;
 		if (currentShot > 3) 
 		{
 			currentShot -= 3; isShot = false;
@@ -89,7 +89,7 @@ void Player::Animation(float time)
 	}
 	if (state == bulletleft)
 	{
-		currentShot += 0.003*time;
+		currentShot += 0.003f*time;
 		if (currentShot > 3)
 		{
 			currentShot -= 3; isShot = false;
@@ -106,13 +106,13 @@ void Player::Control(float time)
 		if (Keyboard::isKeyPressed(Keyboard::A))
 		{
 			isRight = false;
-			state = left; speed = 0.1; isHit = false;
+			state = left; speed = 0.1f; isHit = false;
 			goingSide = 1;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::D))
 		{
 			isRight = true;
-			state = right; speed = 0.1; isHit = false;
+			state = right; speed = 0.1f; isHit = false;
 			goingSide = 2;
 		}
 		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround))
@@ -176,7 +176,7 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 			if (obj[i].name == "thorns")
 			{
 				sound_damage.play();
-				health -= 5; dy = -0.4;
+				health -= 5; dy = -0.4f;
 			}
 		}
 	}
@@ -194,7 +194,7 @@ void Player::Update(float time)
 		case left:dx = -speed; break;
 		case stay: dx = 0; break;
 		case hit: dx = 0; break;
-		case jump: dy = -0.6; break;
+		case jump: dy = -0.6f; break;
 		case bulletleft: dx = 0; break;
 		case bulletright: dx = 0; break;
 		}
@@ -209,7 +209,7 @@ void Player::Update(float time)
 	{ 
 		life = false;
 	}
-	dy = dy + 0.0015*time;
+	dy = dy + 0.0015f*time;
 }
 
 void Player::SoundPlayer(float time)
