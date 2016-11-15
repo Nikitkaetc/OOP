@@ -2,16 +2,17 @@
 
 Entity::Entity(Image &image, String Name, float X, float Y, int W, int H) 
 {
-	x = X; y = Y; w = W; h = H; name = Name;
-	speed = 0; health = 100; dx = 0; dy = 0;
-	dead = false;
-	life = true; onGround = false;
+
+	position.x = X; position.y = Y; size.x = W; size.y = H; name = Name;
+	speed = 0; health = 100; velocity.x = 0; velocity.y = 0;
+	shouldDisppear = false;
+	alive = true; isOnGroud = false;
 	texture.loadFromImage(image);
 	sprite.setTexture(texture);
-	sprite.setOrigin((float)w / 2.f, (float)h / 2.f);
+	sprite.setOrigin((float)size.x / 2.f, (float)size.y / 2.f);
 }
 
 FloatRect Entity::GetRect()
 {
-	return FloatRect((float)x, (float)y, (float)w, (float)h);
+	return FloatRect(position.x, position.y, (float)size.x, (float)size.y);
 }

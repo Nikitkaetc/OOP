@@ -16,10 +16,10 @@ Player::Player(Image &image, String Name, Level &lev, float X, float Y, int W, i
 	sound_bonus.setBuffer(sound_buf_bonus);
 	sound_buf_enemydamage.loadFromFile("music/enemydamage.ogg");
 	sound_enemydamage.setBuffer(sound_buf_enemydamage);
-	state = stay; obj = lev.GetAllObjects(); isRight = true; isHit = false; currentFrame = 0;
+	state = stay; obj = lev.GetAllObjects(); isRightDirection = true; doesAttack = false; currentFrame = 0;
 	if (name == "Player1") 
 	{
-		sprite.setTextureRect(IntRect(0, 0, w, h));
+		sprite.setTextureRect(IntRect(0, 0, size.x, size.y));
 	}
 	lastDamageTime = -3;
 }
@@ -28,12 +28,12 @@ void Player::Animation(float time)
 {
 	if (Keyboard::isKeyPressed(Keyboard::A))
 	{
-		isRight = false;
+		isRightDirection = false;
 		if (!Keyboard::isKeyPressed(Keyboard::W))
 		{
 			currentFrame += 0.005f*time;
 			if (currentFrame > 4) currentFrame -= 4;
-			sprite.setTextureRect(IntRect(191 + (40 * int(currentFrame)), 8, -w, h));
+			sprite.setTextureRect(IntRect(191 + (40 * int(currentFrame)), 8, -size.x, size.y));
 		}
 		else 
 		{
@@ -42,12 +42,12 @@ void Player::Animation(float time)
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D)) 
 	{
-		isRight = true;
+		isRightDirection = true;
 		if (!Keyboard::isKeyPressed(Keyboard::W))
 		{
 			currentFrame += 0.005f*time;
 			if (currentFrame > 4) currentFrame -= 4;
-			sprite.setTextureRect(IntRect(151 + (40 * int(currentFrame)), 8, w, h));
+			sprite.setTextureRect(IntRect(151 + (40 * int(currentFrame)), 8, size.x, size.y));
 		}
 		else 
 		{
@@ -56,25 +56,25 @@ void Player::Animation(float time)
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Space))
 	{
-		if (isRight) 
+		if (isRightDirection) 
 		{
-			sprite.setTextureRect(IntRect(320, 8, 50, h));
+			sprite.setTextureRect(IntRect(320, 8, 50, size.y));
 		}
 		else 
 		{
-			sprite.setTextureRect(IntRect(370, 8, -50, h));
+			sprite.setTextureRect(IntRect(370, 8, -50, size.y));
 		}
 	}
 	if (state == stay) 
 	{
-		isHit = false;
-		if (isRight) 
+		doesAttack = false;
+		if (isRightDirection) 
 		{
-			sprite.setTextureRect(IntRect(151, 8, w, h));
+			sprite.setTextureRect(IntRect(151, 8, size.x, size.y));
 		}
 		else
 		{
-			sprite.setTextureRect(IntRect(151 + w, 8, -w, h));
+			sprite.setTextureRect(IntRect(151 + size.x, 8, -size.x, size.y));
 		}
 	}
 	if (state == bulletright)
@@ -85,7 +85,7 @@ void Player::Animation(float time)
 			currentShot -= 3; isShot = false;
 			oneShot = true;
 		}
-		sprite.setTextureRect(IntRect(302 + (43 * int(currentShot)), 80, 43, h));
+		sprite.setTextureRect(IntRect(302 + (43 * int(currentShot)), 80, 43, size.y));
 	}
 	if (state == bulletleft)
 	{
@@ -95,7 +95,7 @@ void Player::Animation(float time)
 			currentShot -= 3; isShot = false;
 			oneShot = true;
 		}
-		sprite.setTextureRect(IntRect(345 + (43 * int(currentShot)), 80, -43, h));
+		sprite.setTextureRect(IntRect(345 + (43 * int(currentShot)), 80, -43, size.y));
 	}
 }
 void Player::Control(float time)
@@ -105,28 +105,28 @@ void Player::Control(float time)
 		state = stay;
 		if (Keyboard::isKeyPressed(Keyboard::A))
 		{
-			isRight = false;
-			state = left; speed = 0.1f; isHit = false;
+			isRightDirection = false;
+			state = left; speed = 0.1f; doesAttack = false;
 			goingSide = 1;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::D))
 		{
-			isRight = true;
-			state = right; speed = 0.1f; isHit = false;
+			isRightDirection = true;
+			state = right; speed = 0.1f; doesAttack = false;
 			goingSide = 2;
 		}
-		if ((Keyboard::isKeyPressed(Keyboard::W)) && (onGround))
+		if ((Keyboard::isKeyPressed(Keyboard::W)) && (isOnGroud))
 		{
-			state = jump; isHit = false; onGround = false;
+			state = jump; doesAttack = false; isOnGroud = false;
 		}
 		else if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
 			state = hit;
-			isHit = true;
+			doesAttack = true;
 		}
 		if (state == stay)
 		{
-			isHit = false;
+			doesAttack = false;
 		}
 	}
 		if ((Keyboard::isKeyPressed(Keyboard::RShift))&&(oneShot == true) && (isShot == false))
@@ -158,25 +158,25 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 			{
 				if (Dy > 0) 
 				{
-					y = obj[i].rect.top - h;  dy = 0; onGround = true;
+					position.y = obj[i].rect.top - size.y;  velocity.y = 0; isOnGroud = true;
 				}
 				if (Dy < 0) 
 				{ 
-					y = obj[i].rect.top + obj[i].rect.height;   dy = 0; 
+					position.y = obj[i].rect.top + obj[i].rect.height;   velocity.y = 0;
 				}
 				if (Dx > 0) 
 				{
-					x = obj[i].rect.left - w; 
+					position.x = obj[i].rect.left - size.x;
 				}
 				if (Dx < 0) 
 				{
-					x = obj[i].rect.left + obj[i].rect.width; 
+					position.x = obj[i].rect.left + obj[i].rect.width;
 				}
 			}
 			if (obj[i].name == "thorns")
 			{
 				sound_damage.play();
-				health -= 5; dy = -0.4f;
+				health -= 5; velocity.y = -0.4f;
 			}
 		}
 	}
@@ -184,32 +184,32 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 
 void Player::Update(float time)
 {
-	if (life)
+	if (alive)
 	{
 		Control(time);
 		Animation(time);
 		switch (state)
 		{
-		case right:dx = speed; break;
-		case left:dx = -speed; break;
-		case stay: dx = 0; break;
-		case hit: dx = 0; break;
-		case jump: dy = -0.6f; break;
-		case bulletleft: dx = 0; break;
-		case bulletright: dx = 0; break;
+		case right:velocity.x = speed; break;
+		case left:velocity.x = -speed; break;
+		case stay: velocity.x = 0; break;
+		case hit: velocity.x = 0; break;
+		case jump: velocity.y = -0.6f; break;
+		case bulletleft: velocity.x = 0; break;
+		case bulletright: velocity.x = 0; break;
 		}
 		SoundPlayer(time);
-		x += dx*time;
-		CheckCollisionWithMap(dx, 0);
-		y += dy*time;
-		CheckCollisionWithMap(0, dy);
+		position.x += velocity.x*time;
+		CheckCollisionWithMap(velocity.x, 0);
+		position.y += velocity.y*time;
+		CheckCollisionWithMap(0, velocity.y);
 	}
-	sprite.setPosition(x + w / 2, y + h / 2);
+	sprite.setPosition(position.x + size.x / 2, position.y + size.y / 2);
 	if (health <= 0) 
 	{ 
-		life = false;
+		alive = false;
 	}
-	dy = dy + 0.0015f*time;
+	velocity.y = velocity.y + 0.0015f*time;
 }
 
 void Player::SoundPlayer(float time)

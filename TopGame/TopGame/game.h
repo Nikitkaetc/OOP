@@ -14,6 +14,8 @@ enum class GameMode
 	Menu, Play, GameOver
 };
 
+
+
 using namespace std;
 using namespace sf;
 

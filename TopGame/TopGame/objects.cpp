@@ -5,17 +5,17 @@ ObjectsMap::ObjectsMap(Image &image, String Name, Level &lvl, float X, float Y, 
 {
 	if (name == "apple")
 	{
-		sprite.setTextureRect(IntRect(32, 128, w, h));
-		sprite.setOrigin((float)w / 2.f, (float)h / 2.f);
+		sprite.setTextureRect(IntRect(32, 128, size.x, size.y));
+		sprite.setOrigin((float)size.x / 2.f, (float)size.y / 2.f);
 	}
 }
 
 
 void ObjectsMap::Update(float time)
 {
-	sprite.setPosition(x + w / 2, y + h / 2);
+	sprite.setPosition(position.x + size.x / 2, position.y + size.y / 2);
 	if (health <= 0) 
 	{ 
-		life = false; 
+		alive = false; 
 	}
 }

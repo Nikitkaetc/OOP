@@ -16,7 +16,7 @@ Game::Game(RenderWindow& window, int& numberLevel)
 	hardEnemyImage.createMaskFromColor(Color(255, 0, 255));
 
 	bulletImage.loadFromFile("images/bullet.png");
-	bulletImage.createMaskFromColor(Color(255, 0, 255));
+	bulletImage.createMaskFromColor(Color(34, 177, 76));
 
 	appleImage.loadFromFile("images/map1.png");
 
@@ -64,18 +64,18 @@ bool Game::DoGameLoop(RenderWindow& window, int& numberLevel, Music & music_menu
 					if ((!p->oneShot) && (p->isShot))
 					{
 						p->oneShot = true;
-						entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->x, p->y, 32, 30, p->state));
+						entities.push_back(new Bullet(bulletImage, "Bullet", lvl, p->position.x, p->position.y, 33, 38, p->state));
 					}
 				}
-				if (p->x > 3790)
+				if (p->position.x > 3790)
 				{
 					lvl.levelNumber++; numberLevel++; return true;
 				}
-				if (p->y > 900)
+				if (p->position.y > 900)
 				{
-					p->life = false;
+					p->alive = false;
 				}
-				if (p->life == false)
+				if (p->alive == false)
 				{
 					gameMode = GameMode::GameOver;
 					isNeedRestartMusic = true;
@@ -154,7 +154,7 @@ void Game::EnemyColiisions(Entity & it, float gameTime)
 		{
 			if (gameTime > p->lastDamageTime + 1)
 			{
-				if ((!p->isHit) && (it.state == it.hit))
+				if ((!p->doesAttack) && (it.state == it.hit))
 				{
 					p->sound_damage.play();
 					p->health -= it.damage;
@@ -162,11 +162,11 @@ void Game::EnemyColiisions(Entity & it, float gameTime)
 					p->sprite.setColor(Color::Red);
 				}
 			}
-			if (p->isHit)
+			if (p->doesAttack)
 			{
 				p->sound_enemydamage.play();
 				it.health = 0;
-				p->isHit = false;
+				p->doesAttack = false;
 			}
 		}
 		if (it.name == "apple")
@@ -192,17 +192,17 @@ void Game::Collisions(list<Entity*> & entities, const float& time, Player* p, fl
 		for (auto &entity: entities)
 		{
 			EnemyColiisions(*entity, gameTime);
-			if ((entity->x < p->x + 30) && (entity->x > p->x - 30) && (entity->y < p->y + 7) && (entity->y > p->y - 7))
+			if ((entity->position.x < p->position.x + 30) && (entity->position.x > p->position.x - 30) && (entity->position.y < p->position.y + 7) && (entity->position.y > p->position.y - 7))
 			{
 				entity->state = entity->hit;
 			}
 
-			else if ((entity->x < p->x) && (entity->state == entity->hit))
+			else if ((entity->position.x < p->position.x) && (entity->state == entity->hit))
 			{
 				entity->state = entity->right;
 				entity->goingSide = 2;
 			}
-			else if ((entity->x > p->x) && (entity->state == entity->hit))
+			else if ((entity->position.x > p->position.x) && (entity->state == entity->hit))
 			{
 				entity->state = entity->left;
 				entity->goingSide = 1;
@@ -217,8 +217,8 @@ void Game::Collisions(list<Entity*> & entities, const float& time, Player* p, fl
 				{
 					if (entity->GetRect().intersects(entity2->GetRect()))
 					{
-						entity->dead = true;
-						entity2->life = false;
+						entity->shouldDisppear = true;
+						entity2->alive = false;
 					}
 				}
 			}
@@ -230,12 +230,12 @@ void Game::Update(float time, float gameTime)
 {
 	lifeBarPlayer.Update(p->health);
 	p->Update(time);
-	SetPlayerCoordinateForView(p->x, p->y);
+	SetPlayerCoordinateForView(p->position.x, p->position.y);
 	for (auto it = entities.begin(); it != entities.end();)
 	{
 		Entity *b = *it;
 		b->Update(time);
-		if (b->life == false)
+		if (b->alive == false)
 		{
 			it = entities.erase(it); delete b;
 		}
